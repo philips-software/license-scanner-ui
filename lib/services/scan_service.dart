@@ -7,6 +7,8 @@ import 'scan_result.dart';
 /// Service API for accessing scanning results.
 class ScanService {
   final _scannedController = StreamController<List<ScanResult>>.broadcast();
+  final _searchController = StreamController<List<ScanResult>>.broadcast();
+  final _scannerClient = ScannerClient();
 
   /// Provides the latest scan results.
   Stream<List<ScanResult>> get lastScanned {
@@ -15,9 +17,21 @@ class ScanService {
   }
 
   /// Updates the latest scanned list
-  void refreshScans() {
-    ScannerClient().refreshScanned(_scannedController.sink);
+  Future<void> refreshScans() {
+    return _scannerClient.refreshScanned(_scannedController.sink);
   }
 
-  void dispose() => _scannedController.close();
+  /// Provides search results.
+  Stream<List<ScanResult>> get lastSearched {
+    return _searchController.stream;
+  }
+
+  void search(String name) {
+      _scannerClient.search(_searchController.sink, name) ;
+  }
+
+  void dispose() {
+    _scannedController.close();
+    _searchController.close();
+  }
 }
