@@ -7,13 +7,37 @@ class ScanWidget extends Card {
   ScanWidget(this.scan)
       : super(
             child: ListTile(
-          leading: Icon(Icons.check_circle),
+          leading: _iconFor(scan),
           title: Text(title(scan)),
-          subtitle: Text('${scan.license}'),
+          subtitle: (scan.error == null)
+              ? Text(scan.license ?? '')
+              : Text(
+                  scan.error,
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
         ));
 
   static String title(ScanResult scan) {
     final name = '${scan.name} ${scan.version}';
     return (scan.namespace.isEmpty) ? name : name + ' (${scan.namespace})';
+  }
+
+  static Icon _iconFor(ScanResult scan) {
+    if (scan.license == null) {
+      return Icon(Icons.source);
+    }
+    if (scan.error != null) {
+      return Icon(Icons.warning, color: Colors.red);
+    }
+    if (scan.isConfirmed) {
+      return Icon(Icons.verified, color: Colors.blue);
+    }
+    if (scan.isContested) {
+      return Icon(Icons.help, color: Colors.orange);
+    }
+    return Icon(Icons.check_circle, color: Colors.blue);
   }
 }

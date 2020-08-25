@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/scan_result.dart';
-import '../../services/scan_service.dart';
-import '../../widgets/debounce.dart';
-import '../../widgets/exception_widget.dart';
-import '../../widgets/scan_widget.dart';
+import '../services/scan_result.dart';
+import '../services/scan_service.dart';
+import '../widgets/debounce.dart';
+import '../widgets/exception_widget.dart';
+import '../widgets/scan_widget.dart';
 
 class SearchScreen extends StatelessWidget {
   final _debounce = Debounce(Duration(milliseconds: 200));
-  ScanService _service;
 
   @override
   Widget build(BuildContext context) {
-    _service ??= Provider.of<ScanService>(context, listen: false);
+    final service = Provider.of<ScanService>(context, listen: false);
 
     return Scaffold(
         appBar: AppBar(
@@ -30,14 +29,14 @@ class SearchScreen extends StatelessWidget {
                 ),
                 onChanged: (text) {
                   if (text.isNotEmpty) {
-                    _debounce.run(() => _service.search(text));
+                    _debounce.run(() => service.search(text));
                   }
                 },
               ),
             ),
             Expanded(
               child: StreamBuilder(
-                stream: _service.lastSearched,
+                stream: service.lastSearched,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return ExceptionWidget(snapshot.error);

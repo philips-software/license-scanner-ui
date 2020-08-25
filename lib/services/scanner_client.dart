@@ -10,8 +10,7 @@ import 'scan_result.dart';
 /// License Scanner service client.
 /// See https://github.com/philips-labs/license-scanner
 class ScannerClient {
-  Uri baseUrl = Uri.http(kIsWeb ? '' : 'localhost:8080', '/package/');
-
+  final baseUrl = Uri.http(kIsWeb ? '' : 'localhost:8080', '/');
   final _client = Client();
 
   /// Queries latest scanned packages, reporting results and errors in the [sink].
@@ -25,7 +24,7 @@ class ScannerClient {
   /// Queries for named package, reporting results and errors in the [sink].
   void search(StreamSink<List<ScanResult>> sink, String name) async {
     _catchErrorsToSink(sink, () async {
-      final entity = await _client.read(baseUrl.resolve('?name=$name'));
+      final entity = await _client.read(baseUrl.resolve('packages?name=$name'));
       sink.add(_toScanResults(json.decode(entity)));
     });
   }
