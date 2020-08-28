@@ -4,21 +4,23 @@ import 'package:license_scanner_ui/services/scan_result.dart';
 class ScanWidget extends Card {
   final ScanResult scan;
 
-  ScanWidget(this.scan)
+  ScanWidget(this.scan, {void Function() onTap})
       : super(
-            child: ListTile(
-          leading: _iconFor(scan),
-          title: Text(title(scan)),
-          subtitle: (scan.error == null)
-              ? Text(scan.license ?? '')
-              : Text(
-                  scan.error,
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontStyle: FontStyle.italic,
+          child: ListTile(
+            leading: _iconFor(scan),
+            title: Text(title(scan)),
+            subtitle: (scan.error == null)
+                ? Text(scan.license ?? '')
+                : Text(
+                    scan.error,
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
-                ),
-        ));
+            onTap: onTap,
+          ),
+        );
 
   static String title(ScanResult scan) {
     final name = '${scan.name} ${scan.version}';
@@ -33,7 +35,7 @@ class ScanWidget extends Card {
       return Icon(Icons.warning, color: Colors.red);
     }
     if (scan.isConfirmed) {
-      return Icon(Icons.verified, color: Colors.blue);
+      return Icon(Icons.verified, color: Colors.green);
     }
     if (scan.isContested) {
       return Icon(Icons.help, color: Colors.orange);

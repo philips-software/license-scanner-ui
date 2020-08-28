@@ -17,18 +17,33 @@ class ScanService {
   }
 
   /// Updates the latest scanned list
-  Future<void> refreshScans() {
-    return _scannerClient.refreshScanned(_scannedController.sink);
-  }
+  Future<void> refreshScans() =>
+      _scannerClient.refreshScanned(_scannedController.sink);
 
   /// Provides search results.
-  Stream<List<ScanResult>> get lastSearched {
-    return _searchController.stream;
-  }
+  Stream<List<ScanResult>> get lastSearched => _searchController.stream;
 
-  void search(String name) {
-      _scannerClient.search(_searchController.sink, name) ;
-  }
+  /// Searches for packages matching [name], producing results in
+  /// the [lastSearched] stream.
+  void search(String name) =>
+      _scannerClient.search(_searchController.sink, name);
+
+  /// Returns the scan result indicated by [uuid].
+  Future<ScanResult> getScanResult(String uuid) =>
+      _scannerClient.scanResultByUuid(uuid);
+
+  /// Returns the most recent scan result for [package].
+  Future<ScanResult> getPackageScanResult(ScanResult package) =>
+      _scannerClient.scanResultByPackage(package);
+
+  /// Trigger new scan of an existing [package] from [location].
+  Future<void> rescan(ScanResult package, String location) =>
+      _scannerClient.rescan(package, location);
+
+  /// Override the [license] for the scan indicated by the [uuid].
+  /// If no license is provided, the existing license value is confirmed.
+  Future<void> confirm(String uuid, String license) =>
+      _scannerClient.confirm(uuid, license);
 
   void dispose() {
     _scannedController.close();

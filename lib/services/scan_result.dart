@@ -5,24 +5,54 @@ class ScanResult {
   final String version;
 
   String license = '';
+  String location;
   String error;
+  List<Detection> detections;
+
   bool isContested = false;
   bool isConfirmed = false;
 
   ScanResult(this.uuid, this.namespace, this.name, this.version);
 
   factory ScanResult.fromMap(Map<String, dynamic> map) {
-    var result = ScanResult(
+    final result = ScanResult(
       map['uuid'],
       map['namespace'] ?? '',
       map['name'],
       map['version'],
     );
     result.license = map['license'];
+    result.location = map['location'];
     result.error = map['error'];
-    result.isConfirmed = map['isConfirmed'] ?? false;
-    result.isContested = map['isContested'] ?? false;
+    result.isConfirmed = map['confirmed'];
+    result.isContested = map['contested'];
+    final List<dynamic> detections = map['detections'];
+    if (detections != null) {
+      result.detections =
+          detections.map((map) => Detection.fromMap(map)).toList();
+    }
 
     return result;
+  }
+}
+
+class Detection {
+  final String license;
+  final String file;
+  final int startLine;
+  final int endLine;
+  final int confirmations;
+
+  Detection(this.license, this.file, this.startLine, this.endLine,
+      this.confirmations);
+
+  factory Detection.fromMap(Map<String, dynamic> map) {
+    return Detection(
+      map['license'],
+      map['file'] ?? '?',
+      map['start_line'] ?? 0,
+      map['end_line'] ?? 0,
+      map['confirmations'] ?? 0,
+    );
   }
 }
