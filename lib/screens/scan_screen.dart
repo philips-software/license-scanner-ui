@@ -34,13 +34,15 @@ class ScanScreen extends StatelessWidget {
     ScanResult scan = snapshot.data;
     return Container(
       width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          if (scan.namespace.isNotEmpty) Text('(${scan.namespace})'),
-          if (scan.location != null) _locationView(scan),
-          _licenseView(context, scan),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (scan.namespace.isNotEmpty) Text('(${scan.namespace})'),
+            if (scan.location != null) _locationView(scan),
+            _licenseView(context, scan),
+          ],
+        ),
       ),
     );
   }
@@ -49,7 +51,7 @@ class ScanScreen extends StatelessWidget {
     final controller = PageController(viewportFraction: 0.8);
 
     return (detections.isEmpty)
-        ? null
+        ? Text('(No detections)')
         : Column(
             children: [
               SizedBox(
@@ -104,20 +106,23 @@ class ScanScreen extends StatelessWidget {
   }
 
   Widget _locationView(ScanResult result) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(
-          child: Text(
-            'scanned from: ${result.location}',
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            child: Text(
+              'scanned from: ${result.location}',
+            ),
           ),
-        ),
-        IconButton(
-          icon: Icon(Icons.copy),
-          onPressed: () =>
-              Clipboard.setData(new ClipboardData(text: result.location)),
-        ),
-      ],
+          IconButton(
+            icon: Icon(Icons.copy),
+            onPressed: () =>
+                Clipboard.setData(new ClipboardData(text: result.location)),
+          ),
+        ],
+      ),
     );
   }
 
