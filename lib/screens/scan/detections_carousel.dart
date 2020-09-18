@@ -11,31 +11,26 @@ class DetectionsCarousel extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = PageController(viewportFraction: 0.8);
 
-    return (detections.isEmpty)
-        ? Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Text('(No licenses detected)'),
-          )
-        : Column(
-            children: [
-              SizedBox(
-                height: 200,
-                child: PageView(
-                  controller: controller,
-                  children: detections.map((d) => _detectionCard(d)).toList(),
-                ),
-              ),
-              if (detections.length > 1)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SmoothPageIndicator(
-                    controller: controller,
-                    count: detections.length,
-                    onDotClicked: (index) => controller.jumpToPage(index),
-                  ),
-                ),
-            ],
-          );
+    return Column(
+      children: [
+        SizedBox(
+          height: 200,
+          child: PageView(
+            controller: controller,
+            children: detections.map((d) => _detectionCard(d)).toList(),
+          ),
+        ),
+        if (detections.length > 1)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SmoothPageIndicator(
+              controller: controller,
+              count: detections.length,
+              onDotClicked: (index) => controller.jumpToPage(index),
+            ),
+          ),
+      ],
+    );
   }
 
   Widget _detectionCard(Detection detection) {

@@ -3,10 +3,10 @@ import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
 import 'package:license_scanner_ui/widgets/package_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../services/scan_result.dart';
-import '../services/scan_service.dart';
-import '../widgets/debounce.dart';
-import '../widgets/exception_widget.dart';
+import '../../services/scan_result.dart';
+import '../../services/scan_service.dart';
+import '../../widgets/debounce.dart';
+import '../../widgets/exception_widget.dart';
 
 class SearchScreen extends StatelessWidget {
   final _debounce = Debounce(Duration(milliseconds: 200));

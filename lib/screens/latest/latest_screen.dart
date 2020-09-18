@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../services/scan_result.dart';
-import '../services/scan_service.dart';
-import '../widgets/exception_widget.dart';
-import '../widgets/scan_widget.dart';
+import '../../services/scan_result.dart';
+import '../../services/scan_service.dart';
+import '../../widgets/exception_widget.dart';
+import '../../widgets/scan_widget.dart';
 
 class LatestScreen extends StatelessWidget {
   @override
