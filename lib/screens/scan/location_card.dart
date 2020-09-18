@@ -15,17 +15,17 @@ class LocationCard extends StatefulWidget {
 }
 
 class _LocationCardState extends State<LocationCard> {
-  final controller = new TextEditingController();
+  final _controller = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    controller.text = widget.scan.location;
+    _controller.text = widget.scan.location;
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -46,7 +46,7 @@ class _LocationCardState extends State<LocationCard> {
             children: [
               Flexible(
                 child: TextField(
-                  controller: controller,
+                  controller: _controller,
                   decoration: InputDecoration(
                     hintText: '[<vcs>+]<url>[@<version>][#<path>]',
                   ),
@@ -55,7 +55,7 @@ class _LocationCardState extends State<LocationCard> {
               IconButton(
                 icon: Icon(Icons.copy),
                 onPressed: () =>
-                    Clipboard.setData(new ClipboardData(text: controller.text)),
+                    Clipboard.setData(new ClipboardData(text: _controller.text)),
               ),
             ],
           ),
@@ -66,7 +66,7 @@ class _LocationCardState extends State<LocationCard> {
               icon: Icon(Icons.repeat),
               label: Text('RESCAN'),
               onPressed: () => service
-                  .rescan(widget.scan, controller.text)
+                  .rescan(widget.scan, _controller.text)
                   .whenComplete(() => Navigator.of(context).pop())
                   .catchError((e) => showError(context, e.toString())),
             ),

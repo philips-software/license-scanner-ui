@@ -23,9 +23,10 @@ class ScannerClient {
   }
 
   /// Queries for named package, reporting results and errors in the [sink].
-  void search(StreamSink<List<ScanResult>> sink, String name) async {
+  void search(
+      StreamSink<List<ScanResult>> sink, String namespace, String name) async {
     _catchErrorsToSink(sink, () async {
-      final path = 'packages?name=$name';
+      final path = 'packages?namespace=$namespace&name=$name';
       final entity = await _client.read(baseUrl.resolve(path));
       sink.add(_toScanResults(json.decode(entity)));
     });

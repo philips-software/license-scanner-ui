@@ -23,10 +23,10 @@ class ScanService {
   /// Provides search results.
   Stream<List<ScanResult>> get lastSearched => _searchController.stream;
 
-  /// Searches for packages matching [name], producing results in
-  /// the [lastSearched] stream.
-  void search(String name) =>
-      _scannerClient.search(_searchController.sink, name);
+  /// Searches for packages matching [namespace] and [name], producing
+  /// results in the [lastSearched] stream.
+  void search(String namespace, String name) =>
+      _scannerClient.search(_searchController.sink, namespace, name);
 
   /// Returns the scan result indicated by [uuid].
   Future<ScanResult> getScanResult(String uuid) =>

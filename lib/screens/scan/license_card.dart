@@ -16,17 +16,17 @@ class LicenseCard extends StatefulWidget {
 }
 
 class _LicenseCardState extends State<LicenseCard> {
-  final controller = new TextEditingController();
+  final _controller = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    controller.text = widget.scan.license;
+    _controller.text = widget.scan.license;
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _LicenseCardState extends State<LicenseCard> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            controller: controller,
+            controller: _controller,
             autofocus: true,
           ),
         ),
@@ -52,7 +52,7 @@ class _LicenseCardState extends State<LicenseCard> {
             icon: Icon(Icons.verified),
             label: Text('CONFIRM'),
             onPressed: () => service
-                .confirm(widget.scan.uuid, controller.text)
+                .confirm(widget.scan.uuid, _controller.text)
                 .whenComplete(() => Navigator.of(context).pushReplacementNamed(
                 'scan',
                 arguments: ScanScreenParams(
