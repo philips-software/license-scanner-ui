@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/screens/scan_screen.dart';
+import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
 import 'package:license_scanner_ui/widgets/package_widget.dart';
 import 'package:provider/provider.dart';
 

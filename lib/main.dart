@@ -15,10 +15,7 @@ class LicenseScannerApp extends StatelessWidget {
       create: (_) => ScanService(),
       child: MaterialApp(
         title: 'License Scanner',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: ThemeData.light(),
         routes: routes,
         initialRoute: '/',
       ),

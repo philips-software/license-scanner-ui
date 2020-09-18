@@ -1,16 +1,29 @@
-# license_scanner_ui
+# UI for License Scanner
 
-A new Flutter project.
+This is a user interface for the [License Scanner 
+service](https://github.com/philips-labs/license-scanner).
 
-## Getting Started
+## Build instructions
 
-This project is a starting point for a Flutter application.
+### Stand-alone
+The user interface can run as a stand-alone (desktop) app for 
+development: Follow the appropriate [Flutter desktop](https://flutter.dev/desktop) 
+instructions to configure your system for building native desktop
+applications, and start it either from the command line or your IDE.
 
-A few resources to get you started if this is your first Flutter project:
+### Embedding web application into Scanner Service
+To integrate the client as a Progressive Web Application in the 
+Scanner Service, first follow the [Flutter web](https://flutter.dev/web) 
+instructions to set up your system for building web applications. 
+You should be able to run the application this way from your IDE, 
+which will silently take care of the required CORS handling.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Build the application for web:
+```bash
+flutter build web
+```
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This generates the app in the `/build/web` directory of this project,
+which can be copied directly into the `src/main/resources/static`
+folder of the License Scanner.
+
