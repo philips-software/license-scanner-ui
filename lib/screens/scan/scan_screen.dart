@@ -45,12 +45,15 @@ class ScanScreen extends StatelessWidget {
     );
   }
 
-  Widget _namespaceView(ScanResult scan) => Text(
-        '${scan.namespace ?? "-"}',
-        style: TextStyle(
-          fontSize: 20,
-        ),
-      );
+  Widget _namespaceView(ScanResult scan) =>
+      (scan.namespace?.isNotEmpty ?? false)
+          ? Text(
+              scan.namespace,
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            )
+          : Text('(no namespace)');
 }
 
 class ScanScreenParams {

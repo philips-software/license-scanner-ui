@@ -26,6 +26,8 @@ class ScannerClient {
   void search(
       StreamSink<List<ScanResult>> sink, String namespace, String name) async {
     _catchErrorsToSink(sink, () async {
+      namespace = Uri.encodeComponent(namespace);
+      name = Uri.encodeComponent(name);
       final path = 'packages?namespace=$namespace&name=$name';
       final entity = await _client.read(baseUrl.resolve(path));
       sink.add(_toScanResults(json.decode(entity)));
@@ -55,7 +57,11 @@ class ScannerClient {
   }
 
   String _pathForPackage(ScanResult pkg) {
-    return '${pkg.namespace}/${pkg.name}/${pkg.version}';
+    final namespace = Uri.encodeComponent(pkg.namespace);
+    final name = Uri.encodeComponent(pkg.name);
+    final version =
+        Uri.encodeComponent(pkg.version.isNotEmpty ? pkg.version : " ");
+    return '$namespace/$name/$version';
   }
 
   List<ScanResult> _toScanResults(Map<String, dynamic> map) {
@@ -64,8 +70,7 @@ class ScannerClient {
   }
 
   Future<void> rescan(ScanResult package, String location) async {
-    final path =
-        'packages/${package.namespace}/${package.name}/${package.version}?force=yes';
+    final path = 'packages/${_pathForPackage(package)}?force=yes';
     final body = jsonEncode({'location': location});
     return _success(_client.post(
       baseUrl.resolve(path),

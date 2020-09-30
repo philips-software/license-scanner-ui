@@ -1,11 +1,29 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:license_scanner_ui/services/scan_result.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class DetectionsCarousel extends StatelessWidget {
+class DetectionsCarousel extends StatefulWidget {
   final List<Detection> detections;
+  final StreamController _controller = StreamController<String>();
+
+  Stream<String> get stream => _controller.stream;
 
   DetectionsCarousel(this.detections);
+
+  @override
+  _DetectionsCarouselState createState() => _DetectionsCarouselState();
+}
+
+class _DetectionsCarouselState extends State<DetectionsCarousel> {
+  bool included = true;
+
+  @override
+  void dispose() {
+    widget._controller.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +32,18 @@ class DetectionsCarousel extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 200,
+          height: 250,
           child: PageView(
             controller: controller,
-            children: detections.map((d) => _detectionCard(d)).toList(),
+            children: widget.detections.map((d) => _detectionCard(d)).toList(),
           ),
         ),
-        if (detections.length > 1)
+        if (widget.detections.length > 1)
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SmoothPageIndicator(
               controller: controller,
-              count: detections.length,
+              count: widget.detections.length,
               onDotClicked: (index) => controller.jumpToPage(index),
             ),
           ),
@@ -35,7 +53,6 @@ class DetectionsCarousel extends StatelessWidget {
 
   Widget _detectionCard(Detection detection) {
     return Card(
-      elevation: 10,
       child: Column(
         children: [
           Text(
@@ -60,9 +77,20 @@ class DetectionsCarousel extends StatelessWidget {
                 ? 'found in ${detection.confirmations} locations'
                 : '(single detection)'),
             dense: true,
-          )
+          ),
+          // Center(
+          //   child: Switch(
+          //     value: included,
+          //     onChanged: (value) => setState(() {
+          //       included = value;
+          //       widget._controller.add(detection.license);
+          //     }),
+          //   ),
+          // ),
         ],
       ),
+      elevation: 10,
+      color: Colors.grey[50],
     );
   }
 }

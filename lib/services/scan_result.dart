@@ -16,7 +16,7 @@ class ScanResult {
 
   factory ScanResult.fromMap(Map<String, dynamic> map) {
     final result = ScanResult(
-      map['uuid'],
+      map['id'],
       map['namespace'] ?? '',
       map['name'],
       map['version'],

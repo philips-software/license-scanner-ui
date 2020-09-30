@@ -48,15 +48,22 @@ class _LicenseCardState extends State<LicenseCard> {
           ),
         ),
         ButtonBar(children: [
-          FlatButton.icon(
+          if (widget.scan.isContested) Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.red),
+              Text('License was contested', style: TextStyle(color: Colors.red)),
+            ]),
+          ),
+          RaisedButton.icon(
             icon: Icon(Icons.verified),
             label: Text('CONFIRM'),
             onPressed: () => service
                 .confirm(widget.scan.uuid, _controller.text)
                 .whenComplete(() => Navigator.of(context).pushReplacementNamed(
-                'scan',
-                arguments: ScanScreenParams(
-                    widget.scan, service.getScanResult(widget.scan.uuid))))
+                    'scan',
+                    arguments: ScanScreenParams(
+                        widget.scan, service.getScanResult(widget.scan.uuid))))
                 .catchError((e) => showError(context, e.toString())),
           ),
         ])

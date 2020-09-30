@@ -62,7 +62,7 @@ class _LocationCardState extends State<LocationCard> {
         ),
         ButtonBar(
           children: [
-            FlatButton.icon(
+            RaisedButton.icon(
               icon: Icon(Icons.repeat),
               label: Text('RESCAN'),
               onPressed: () => service
