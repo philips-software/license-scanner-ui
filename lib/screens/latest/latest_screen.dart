@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2020-2020, Koninklijke Philips N.V., https://www.philips.com
+ * SPDX-License-Identifier: MIT
+ */
+
 import 'package:flutter/material.dart';
 import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +18,16 @@ class LatestScreen extends StatelessWidget {
     final service = Provider.of<ScanService>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Latest scans'),
-      ),
+      appBar: AppBar(title: Text('Latest scans'), actions: [
+        IconButton(
+          icon: Icon(Icons.info_outline),
+          onPressed: () => showAboutDialog(
+            context: context,
+            applicationName: 'License Scanner',
+            applicationLegalese: 'Licensed under MIT'
+          ),
+        ),
+      ]),
       body: StreamBuilder(
         stream: service.lastScanned,
         builder: (context, snapshot) {

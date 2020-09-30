@@ -1,26 +1,34 @@
+/*
+ * Copyright (c) 2020-2020, Koninklijke Philips N.V., https://www.philips.com
+ * SPDX-License-Identifier: MIT
+ */
+
 import 'package:flutter/material.dart';
 import 'package:license_scanner_ui/services/scan_result.dart';
 
-class ScanWidget extends Card {
+class ScanWidget extends StatelessWidget {
   final ScanResult scan;
+  final Function onTap;
 
-  ScanWidget(this.scan, {void Function() onTap})
-      : super(
-          child: ListTile(
-            leading: _iconFor(scan),
-            title: Text(title(scan)),
-            subtitle: (scan.error == null)
-                ? Text(scan.license ?? '')
-                : Text(
-                    scan.error,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-            onTap: onTap,
-          ),
-        );
+  ScanWidget(this.scan, {this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: _iconFor(scan),
+      title: Text(title(scan)),
+      subtitle: (scan.error == null)
+          ? Text(scan.license ?? '')
+          : Text(
+              scan.error,
+              style: TextStyle(
+                color: Colors.red,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+      onTap: onTap,
+    );
+  }
 
   static String title(ScanResult scan) {
     final name = '${scan.name} ${scan.version}';
