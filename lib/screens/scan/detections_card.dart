@@ -4,8 +4,8 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
 
+import '../../services/scan_result.dart';
 import 'detections_carousel.dart';
 
 class DetectionsCard extends StatelessWidget {

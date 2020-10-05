@@ -5,10 +5,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
-import 'package:license_scanner_ui/widgets/shared.dart';
 import 'package:provider/provider.dart';
+
+import '../../screens/widgets/shared.dart';
+import '../../services/scan_result.dart';
+import '../../services/scan_service.dart';
 
 class LocationCard extends StatefulWidget {
   final ScanResult scan;
@@ -59,8 +60,8 @@ class _LocationCardState extends State<LocationCard> {
               ),
               IconButton(
                 icon: Icon(Icons.copy),
-                onPressed: () =>
-                    Clipboard.setData(new ClipboardData(text: _controller.text)),
+                onPressed: () => Clipboard.setData(
+                    new ClipboardData(text: _controller.text)),
               ),
             ],
           ),

@@ -5,9 +5,8 @@
 
 import 'dart:async';
 
-import 'package:license_scanner_ui/services/scanner_client.dart';
-
 import 'scan_result.dart';
+import 'scanner_client.dart';
 
 /// Service API for accessing scanning results.
 class ScanService {

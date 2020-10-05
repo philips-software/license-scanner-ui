@@ -4,7 +4,8 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
+
+import '../../services/scan_result.dart';
 
 class ErrorCard extends StatelessWidget {
   final ScanResult scan;

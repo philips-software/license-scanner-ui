@@ -6,8 +6,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../services/scan_result.dart';
 
 class DetectionsCarousel extends StatefulWidget {
   final List<Detection> detections;

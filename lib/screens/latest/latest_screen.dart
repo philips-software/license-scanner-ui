@@ -4,13 +4,13 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_result.dart';
 import '../../services/scan_service.dart';
-import '../../widgets/exception_widget.dart';
-import '../../widgets/scan_widget.dart';
+import '../scan/scan_screen.dart';
+import '../widgets/exception_widget.dart';
+import '../widgets/scan_widget.dart';
 
 class LatestScreen extends StatelessWidget {
   @override
@@ -22,10 +22,9 @@ class LatestScreen extends StatelessWidget {
         IconButton(
           icon: Icon(Icons.info_outline),
           onPressed: () => showAboutDialog(
-            context: context,
-            applicationName: 'License Scanner',
-            applicationLegalese: 'Licensed under MIT'
-          ),
+              context: context,
+              applicationName: 'License Scanner',
+              applicationLegalese: 'Licensed under MIT'),
         ),
       ]),
       body: StreamBuilder(

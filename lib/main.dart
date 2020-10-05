@@ -4,11 +4,11 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'routes.dart';
+import 'services/scan_service.dart';
 
 void main() {
   runApp(LicenseScannerApp());

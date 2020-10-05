@@ -4,14 +4,14 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
-import 'package:license_scanner_ui/widgets/package_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_result.dart';
 import '../../services/scan_service.dart';
-import '../../widgets/debounce.dart';
-import '../../widgets/exception_widget.dart';
+import '../scan/scan_screen.dart';
+import '../widgets/debounce.dart';
+import '../widgets/exception_widget.dart';
+import '../widgets/package_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   @override

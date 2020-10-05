@@ -4,9 +4,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
-import 'package:license_scanner_ui/widgets/exception_widget.dart';
 
+import '../../screens/widgets/exception_widget.dart';
+import '../../services/scan_result.dart';
 import 'detections_card.dart';
 import 'error_card.dart';
 import 'license_card.dart';

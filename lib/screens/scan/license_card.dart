@@ -4,12 +4,11 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
-import 'package:license_scanner_ui/widgets/shared.dart';
 import 'package:provider/provider.dart';
 
-import 'scan_screen.dart';
+import '../../screens/widgets/shared.dart';
+import '../../services/scan_result.dart';
+import '../../services/scan_service.dart';
 
 class LicenseCard extends StatefulWidget {
   final ScanResult scan;
@@ -53,22 +52,21 @@ class _LicenseCardState extends State<LicenseCard> {
           ),
         ),
         ButtonBar(children: [
-          if (widget.scan.isContested) Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.red),
-              Text('License was contested', style: TextStyle(color: Colors.red)),
-            ]),
-          ),
+          if (widget.scan.isContested)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.orange),
+                Text('License was contested',
+                    style: TextStyle(color: Colors.orange)),
+              ]),
+            ),
           RaisedButton.icon(
             icon: Icon(Icons.verified),
             label: Text('CONFIRM'),
             onPressed: () => service
                 .confirm(widget.scan.uuid, _controller.text)
-                .whenComplete(() => Navigator.of(context).pushReplacementNamed(
-                    'scan',
-                    arguments: ScanScreenParams(
-                        widget.scan, service.getScanResult(widget.scan.uuid))))
+                .whenComplete(() => Navigator.of(context).pop())
                 .catchError((e) => showError(context, e.toString())),
           ),
         ])
