@@ -10,12 +10,12 @@
 
 import 'package:flutter/cupertino.dart';
 
-import 'screens/latest/latest_screen.dart';
+import 'screens/results/results_screen.dart';
 import 'screens/scan/scan_screen.dart';
 import 'screens/search/search_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
-  '/': (_) => LatestScreen(),
+  '/': (_) => ResultsScreen(),
   'scan': (_) => ScanScreen(),
   'search': (_) => SearchScreen(),
 };

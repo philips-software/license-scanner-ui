@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import '../../services/scan_result.dart';
 import '../../services/scan_service.dart';
 import '../scan/scan_screen.dart';
-import '../widgets/debounce.dart';
+import 'debounce.dart';
 import '../widgets/exception_widget.dart';
 import 'package_widget.dart';
 
