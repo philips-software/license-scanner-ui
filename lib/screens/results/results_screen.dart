@@ -24,7 +24,7 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final service = Provider.of<ScanService>(context, listen:false);
+    final service = Provider.of<ScanService>(context, listen: false);
 
     return PlatformTabScaffold(
       appBarBuilder: (_, index) => PlatformAppBar(
@@ -54,7 +54,16 @@ class ResultsScreen extends StatelessWidget {
           label: 'Latest',
         ),
       ],
-      bodyBuilder: (_, index) => ScansView(scans: service.lastScanned,),
+      bodyBuilder: (_, index) {
+        switch (index) {
+          case 0:
+            return ScansView(scans: service.errors());
+          case 1:
+            return ScansView(scans: service.contested());
+          default:
+            return ScansView(scans: service.latest());
+        }
+      },
       material: (_, __) => MaterialTabScaffoldData(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.search),

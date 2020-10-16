@@ -39,6 +39,7 @@ class AppTheme extends StatelessWidget {
           ),
           material: (_, __) => MaterialAppData(
             themeMode: ThemeMode.light,
+            routes: routes,
             theme: ThemeData(
               primarySwatch: Colors.blue,
               primaryColor: Colors.blue[700],
@@ -48,6 +49,7 @@ class AppTheme extends StatelessWidget {
             ),
           ),
           cupertino: (_, __) => CupertinoAppData(
+            routes: routes,
             localizationsDelegates: [DefaultMaterialLocalizations.delegate],
             theme: CupertinoThemeData(
               scaffoldBackgroundColor: Colors.blue[50],
@@ -56,7 +58,6 @@ class AppTheme extends StatelessWidget {
               brightness: Brightness.light,
             ),
           ),
-          routes: routes,
           initialRoute: '/',
         ),
       );

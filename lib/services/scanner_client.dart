@@ -9,26 +9,25 @@
  */
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
 
 import 'scan_result.dart';
 
 /// License Scanner service client.
 /// See https://github.com/philips-labs/license-scanner
 class ScannerClient {
-  final _jsonRequestHeader = {'Content-Type': 'application/json'};
   final baseUrl = Uri.http(kIsWeb ? '' : 'localhost:8080', '/');
-  final _client = Client();
+  final _dio = Dio();
 
   /// Queries latest scanned packages, reporting results and errors in the [sink].
   Future<void> refreshScanned(EventSink<List<ScanResult>> sink) async {
     return _catchErrorsToSink(sink, () async {
-      final entity = await _client.read(baseUrl.resolve('scans'));
-      sink.add(_toScanResults(json.decode(entity)));
+      final json = await _get(baseUrl.resolve('scans'));
+      sink.add(ScanResult.fromList(json['results']));
     });
   }
 
@@ -36,11 +35,13 @@ class ScannerClient {
   void search(
       StreamSink<List<ScanResult>> sink, String namespace, String name) async {
     _catchErrorsToSink(sink, () async {
-      namespace = Uri.encodeComponent(namespace);
-      name = Uri.encodeComponent(name);
-      final path = 'packages?namespace=$namespace&name=$name';
-      final entity = await _client.read(baseUrl.resolve(path));
-      sink.add(_toScanResults(json.decode(entity)));
+      final json = await _get(baseUrl.resolve('packages').replace(
+        queryParameters: {
+          'namespace': Uri.encodeComponent(namespace),
+          'name': Uri.encodeComponent(name),
+        },
+      ));
+      sink.add(ScanResult.fromList(json['results']));
     });
   }
 
@@ -54,16 +55,34 @@ class ScannerClient {
     }
   }
 
+  Future<List<ScanResult>> latestScanResults() async {
+    final json = await _get(baseUrl.resolve('scans'));
+    return ScanResult.fromList(json['results']);
+  }
+
+  Future<List<ScanResult>> scanErrors() async {
+    final json = await _get(baseUrl.resolve('scans').replace(
+      queryParameters: {'q': 'errors'},
+    ));
+    return ScanResult.fromList(json['results']);
+  }
+
+  Future<List<ScanResult>> contested() async {
+    final json = await _get(baseUrl.resolve('scans').replace(
+      queryParameters: {'q': 'contested'},
+    ));
+    return ScanResult.fromList(json['results']);
+  }
+
   Future<ScanResult> scanResultByUuid(String uuid) async {
-    final path = 'scans/$uuid';
-    final entity = await _client.read(baseUrl.resolve(path));
-    return ScanResult.fromMap(json.decode(entity));
+    final json = await _get(baseUrl.resolve('scans/$uuid'));
+    return ScanResult.fromMap(json);
   }
 
   Future<ScanResult> scanResultByPackage(ScanResult pkg) async {
     final path = 'packages/${_pathForPackage(pkg)}';
-    final entity = await _client.read(baseUrl.resolve(path));
-    return ScanResult.fromMap(json.decode(entity));
+    final json = await _get(baseUrl.resolve(path));
+    return ScanResult.fromMap(json);
   }
 
   String _pathForPackage(ScanResult pkg) {
@@ -74,36 +93,55 @@ class ScannerClient {
     return '$namespace/$name/$version';
   }
 
-  List<ScanResult> _toScanResults(Map<String, dynamic> map) {
-    final List<dynamic> results = map['results'];
-    return results.map((scan) => ScanResult.fromMap(scan)).toList();
-  }
-
   Future<void> rescan(ScanResult package, String location) async {
     final path = 'packages/${_pathForPackage(package)}?force=yes';
-    final body = jsonEncode({'location': location});
-    return _success(_client.post(
-      baseUrl.resolve(path),
+    final body = {'location': location};
+    await _post(
+      baseUrl.resolve(path).replace(
+        queryParameters: {'force': 'yes'},
+      ),
       body: body,
-      headers: _jsonRequestHeader,
-    ));
+    );
   }
 
   Future<void> confirm(String uuid, String license) async {
     final path = 'scans/$uuid';
-    final body = jsonEncode({'license': license});
-    return _success(_client.put(
-      baseUrl.resolve(path),
-      body: body,
-      headers: _jsonRequestHeader,
-    ));
+    final body = {'license': license};
+    await _put(baseUrl.resolve(path), body: body);
   }
 
-  Future<void> _success(Future<Response> request) async {
-    final response = await request;
+  Future< dynamic> _get(Uri query) async {
+    final response = await _dio.getUri(query);
+    return _assertSuccess(response);
+  }
+
+  Future<Map<String, dynamic>> _post(Uri query, {dynamic body}) async {
+    final response = await _dio.postUri(
+      query,
+      data: body,
+      options: Options(contentType: ContentType.json.toString()),
+    );
+    return _assertSuccess(response);
+  }
+
+  Future<Map<String, dynamic>> _put(Uri query, {dynamic body}) async {
+    final response = await _dio.putUri(
+      query,
+      data: body,
+      options: Options(contentType: ContentType.json.toString()),
+    );
+    return _assertSuccess(response);
+  }
+
+  T _assertSuccess<T>(Response<T> response) {
     if (response.statusCode != 200) {
-      throw new ClientException(
-          'Status ${response.statusCode}: ${response.reasonPhrase}');
+      throw DioError(
+        type: DioErrorType.RESPONSE,
+        response: response,
+        error: 'Received status ${response.statusCode}',
+      );
     }
+
+    return response.data;
   }
 }

@@ -37,6 +37,15 @@ class ScanService {
   void search(String namespace, String name) =>
       _scannerClient.search(_searchController.sink, namespace, name);
 
+  /// Returns recent scan errors.
+  Future<List<ScanResult>> latest() => _scannerClient.latestScanResults();
+
+  /// Returns all scan errors.
+  Future<List<ScanResult>> errors() => _scannerClient.scanErrors();
+
+  /// Returns all contested scans.
+  Future<List<ScanResult>> contested() => _scannerClient.contested();
+
   /// Returns the scan result indicated by [uuid].
   Future<ScanResult> getScanResult(String uuid) =>
       _scannerClient.scanResultByUuid(uuid);

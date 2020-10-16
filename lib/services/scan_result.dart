@@ -44,6 +44,9 @@ class ScanResult {
 
     return result;
   }
+
+  static List<ScanResult> fromList(List<dynamic> list) =>
+      list.map((m) => ScanResult.fromMap(m)).toList(growable: false);
 }
 
 class Detection {
