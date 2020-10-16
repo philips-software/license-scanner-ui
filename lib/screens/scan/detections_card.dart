@@ -20,18 +20,21 @@ class DetectionsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          ListTile(
-            leading: Icon(Icons.check_circle),
-            title: Text('Detections'),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: DetectionsCarousel(scan.detections),
-          ),
-        ],
+    return Material(
+      type: MaterialType.transparency,
+      child: Card(
+        child: Column(
+          children: [
+            ListTile(
+              leading: Icon(Icons.check_circle),
+              title: Text('Detections'),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: DetectionsCarousel(scan.detections),
+            ),
+          ],
+        ),
       ),
     );
   }

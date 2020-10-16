@@ -20,19 +20,21 @@ class ScanWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: _iconFor(scan),
-      title: Text(title(scan)),
-      subtitle: (scan.error == null)
-          ? Text(scan.license ?? '')
-          : Text(
-              scan.error,
-              style: TextStyle(
-                color: Colors.red,
-                fontStyle: FontStyle.italic,
+    return Material(
+      child: ListTile(
+        leading: _iconFor(scan),
+        title: Text(title(scan)),
+        subtitle: (scan.error == null)
+            ? Text(scan.license ?? '')
+            : Text(
+                scan.error,
+                style: TextStyle(
+                  color: Colors.red,
+                  fontStyle: FontStyle.italic,
+                ),
               ),
-            ),
-      onTap: onTap,
+        onTap: onTap,
+      ),
     );
   }
 

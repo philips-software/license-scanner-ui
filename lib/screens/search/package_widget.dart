@@ -20,11 +20,13 @@ class PackageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.source),
-      title: Text('${package.name} ${package.version}'),
-      subtitle: Text(package.namespace),
-      onTap: onTap,
+    return Material(
+      child: ListTile(
+        leading: Icon(Icons.source),
+        title: Text('${package.name} ${package.version}'),
+        subtitle: Text(package.namespace),
+        onTap: onTap,
+      ),
     );
   }
 }

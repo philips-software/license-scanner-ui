@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../screens/widgets/exception_widget.dart';
 import '../../services/scan_result.dart';
@@ -22,8 +23,9 @@ class ScanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ScanScreenParams params = ModalRoute.of(context).settings.arguments;
 
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      iosContentPadding: true,
+      appBar: PlatformAppBar(
           title: Text('${params.package.name} - ${params.package.version}')),
       body: FutureBuilder(
         future: params.future,
@@ -32,12 +34,13 @@ class ScanScreen extends StatelessWidget {
             return ExceptionWidget(snapshot.error);
           }
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: PlatformCircularProgressIndicator());
           }
           ScanResult scan = snapshot.data;
           return Container(
             width: double.infinity,
             child: SingleChildScrollView(
+
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

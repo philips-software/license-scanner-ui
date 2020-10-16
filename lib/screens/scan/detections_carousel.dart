@@ -19,6 +19,7 @@ class DetectionsCarousel extends StatefulWidget {
   final List<Detection> detections;
   final StreamController _controller = StreamController<String>();
 
+  // TODO This cannot be the right way...
   Stream<String> get stream => _controller.stream;
 
   DetectionsCarousel(this.detections);
@@ -63,45 +64,47 @@ class _DetectionsCarouselState extends State<DetectionsCarousel> {
   }
 
   Widget _detectionCard(Detection detection) {
-    return Card(
-      child: Column(
-        children: [
-          Text(
-            detection.license,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          ListTile(
-            leading: Icon(Icons.text_snippet_outlined),
-            title: Text('file: ${detection.file}'),
-            dense: true,
-          ),
-          ListTile(
-            leading: Icon(Icons.format_line_spacing),
-            title: Text((detection.startLine != detection.endLine)
-                ? 'line ${detection.startLine} - ${detection.endLine} (${1 + detection.endLine - detection.startLine} lines)'
-                : 'line ${detection.startLine}'),
-            dense: true,
-          ),
-          ListTile(
-            leading: Icon(Icons.thumb_up_outlined),
-            title: Text((detection.confirmations > 1)
-                ? 'found in ${detection.confirmations} locations'
-                : '(single detection)'),
-            dense: true,
-          ),
-          // Center(
-          //   child: Switch(
-          //     value: included,
-          //     onChanged: (value) => setState(() {
-          //       included = value;
-          //       widget._controller.add(detection.license);
-          //     }),
-          //   ),
-          // ),
-        ],
+    return Material(
+      child: Card(
+        child: Column(
+          children: [
+            Text(
+              detection.license,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
+            ListTile(
+              leading: Icon(Icons.text_snippet_outlined),
+              title: Text('file: ${detection.file}'),
+              dense: true,
+            ),
+            ListTile(
+              leading: Icon(Icons.format_line_spacing),
+              title: Text((detection.startLine != detection.endLine)
+                  ? 'line ${detection.startLine} - ${detection.endLine} (${1 + detection.endLine - detection.startLine} lines)'
+                  : 'line ${detection.startLine}'),
+              dense: true,
+            ),
+            ListTile(
+              leading: Icon(Icons.thumb_up_outlined),
+              title: Text((detection.confirmations > 1)
+                  ? 'found in ${detection.confirmations} locations'
+                  : '(single detection)'),
+              dense: true,
+            ),
+            // Center(
+            //   child: Switch(
+            //     value: included,
+            //     onChanged: (value) => setState(() {
+            //       included = value;
+            //       widget._controller.add(detection.license);
+            //     }),
+            //   ),
+            // ),
+          ],
+        ),
+        elevation: 10,
+        color: Colors.grey[50],
       ),
-      elevation: 10,
-      color: Colors.grey[50],
     );
   }
 }

@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_result.dart';
@@ -16,7 +17,7 @@ import '../../services/scan_service.dart';
 import '../scan/scan_screen.dart';
 import '../widgets/debounce.dart';
 import '../widgets/exception_widget.dart';
-import '../widgets/package_widget.dart';
+import 'package_widget.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -37,8 +38,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
+    return PlatformScaffold(
+        iosContentPadding: true,
+        appBar: PlatformAppBar(
           title: Text('Search'),
         ),
         body: Column(
@@ -61,7 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     return ExceptionWidget(snapshot.error);
                   }
                   if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: PlatformCircularProgressIndicator());
                   }
                   return _packageList(snapshot.data, _service);
                 },
@@ -71,22 +73,31 @@ class _SearchScreenState extends State<SearchScreen> {
         ));
   }
 
-  Widget _textField(
-      {TextEditingController controller,
-      String hint,
-      bool ignoreEmpty = false}) {
+  Widget _textField({
+    TextEditingController controller,
+    String hint,
+    bool ignoreEmpty = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: TextField(
+      child: PlatformTextField(
         controller: controller,
         autofocus: true,
-        decoration: InputDecoration(
-          hintText: hint,
-          suffixIcon: IconButton(
-            onPressed: () => controller.clear(),
-            icon: Icon(Icons.clear),
+        material: (_, __) => MaterialTextFieldData(
+          decoration: InputDecoration(
+            hintText: hint,
+            suffixIcon: IconButton(
+              onPressed: () => controller.clear(),
+              icon: Icon(PlatformIcons(context).clear),
+            ),
           ),
         ),
+        cupertino: (_, __) => CupertinoTextFieldData(
+            placeholder: hint,
+            suffix: PlatformIconButton(
+              onPressed: () => controller.clear(),
+              icon: Icon(PlatformIcons(context).clear),
+            )),
         onChanged: (text) {
           if (!ignoreEmpty || text.isNotEmpty) _onTextChange(_service);
         },

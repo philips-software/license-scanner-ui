@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/widgets/shared.dart';
@@ -43,20 +44,21 @@ class _LicenseCardState extends State<LicenseCard> {
   Widget build(BuildContext context) {
     final ScanService service = Provider.of<ScanService>(context);
 
-    return Card(
-      child: Column(children: [
-        ListTile(
-          leading: Icon(Icons.verified),
-          title: Text('License'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            controller: _controller,
-            autofocus: true,
+    return Material(
+      type: MaterialType.transparency,
+      child: Card(
+        child: Column(children: [
+          ListTile(
+            leading: Icon(Icons.verified),
+            title: Text('License'),
           ),
-        ),
-        ButtonBar(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _controller,
+              autofocus: true,
+            ),
+          ),
           if (widget.scan.isContested)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -66,16 +68,17 @@ class _LicenseCardState extends State<LicenseCard> {
                     style: TextStyle(color: Colors.orange)),
               ]),
             ),
-          RaisedButton.icon(
-            icon: Icon(Icons.verified),
-            label: Text('CONFIRM'),
-            onPressed: () => service
-                .confirm(widget.scan.uuid, _controller.text)
-                .whenComplete(() => Navigator.of(context).pop())
-                .catchError((e) => showError(context, e.toString())),
-          ),
-        ])
-      ]),
+          ButtonBar(children: [
+            PlatformButton(
+              child: PlatformText('Confirm'),
+              onPressed: () => service
+                  .confirm(widget.scan.uuid, _controller.text)
+                  .whenComplete(() => Navigator.of(context).pop())
+                  .catchError((e) => showError(context, e.toString())),
+            ),
+          ])
+        ]),
+      ),
     );
   }
 }

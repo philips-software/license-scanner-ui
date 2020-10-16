@@ -10,6 +10,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/widgets/shared.dart';
@@ -42,48 +43,56 @@ class _LocationCardState extends State<LocationCard> {
 
   @override
   Widget build(BuildContext context) {
+    const locationHint = '[<vcs>+]<url>[@<version>][#<path>]';
     final ScanService service = Provider.of<ScanService>(context);
 
-    return Card(
-      child: Column(children: [
-        ListTile(
-          leading: Icon(Icons.location_pin),
-          title: Text('Location'),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: TextField(
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    hintText: '[<vcs>+]<url>[@<version>][#<path>]',
+    return Material(
+      type: MaterialType.transparency,
+      child: Card(
+        child: Column(children: [
+          ListTile(
+            leading: Icon(Icons.location_pin),
+            title: Text('Location'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: PlatformTextField(
+                    controller: _controller,
+                    material: (_, __) => MaterialTextFieldData(
+                      decoration: InputDecoration(
+                        hintText: locationHint,
+                      ),
+                    ),
+                    cupertino: (_, __) => CupertinoTextFieldData(
+                      placeholder: locationHint,
+                    ),
                   ),
                 ),
-              ),
-              IconButton(
-                icon: Icon(Icons.copy),
-                onPressed: () => Clipboard.setData(
-                    new ClipboardData(text: _controller.text)),
+                PlatformIconButton(
+                  icon: Icon(Icons.copy),
+                  onPressed: () => Clipboard.setData(
+                      new ClipboardData(text: _controller.text)),
+                ),
+              ],
+            ),
+          ),
+          ButtonBar(
+            children: [
+              PlatformButton(
+                child: PlatformText('Rescan'),
+                onPressed: () => service
+                    .rescan(widget.scan, _controller.text)
+                    .whenComplete(() => Navigator.of(context).pop())
+                    .catchError((e) => showError(context, e.toString())),
               ),
             ],
-          ),
-        ),
-        ButtonBar(
-          children: [
-            RaisedButton.icon(
-              icon: Icon(Icons.repeat),
-              label: Text('RESCAN'),
-              onPressed: () => service
-                  .rescan(widget.scan, _controller.text)
-                  .whenComplete(() => Navigator.of(context).pop())
-                  .catchError((e) => showError(context, e.toString())),
-            ),
-          ],
-        )
-      ]),
+          )
+        ]),
+      ),
     );
   }
 }

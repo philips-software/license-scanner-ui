@@ -19,20 +19,23 @@ class ErrorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Theme.of(context).errorColor,
-      child: Column(children: [
-        ListTile(
-          leading: Icon(
-            Icons.warning,
-            color: Colors.yellow,
+    return Material(
+      type: MaterialType.transparency,
+      child: Card(
+        color: Theme.of(context).errorColor,
+        child: Column(children: [
+          ListTile(
+            leading: Icon(
+              Icons.warning,
+              color: Colors.yellow,
+            ),
+            title: Text(
+              scan.error,
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-          title: Text(
-            scan.error,
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }

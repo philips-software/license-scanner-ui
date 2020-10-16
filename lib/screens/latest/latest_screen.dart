@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_result.dart';
@@ -22,16 +23,23 @@ class LatestScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final service = Provider.of<ScanService>(context, listen: false);
 
-    return Scaffold(
-      appBar: AppBar(title: Text('Latest scans'), actions: [
-        IconButton(
-          icon: Icon(Icons.info_outline),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: Text('Latest scans'),
+        leading: PlatformIconButton(
+          icon: Icon(PlatformIcons(context).info),
           onPressed: () => showAboutDialog(
               context: context,
               applicationName: 'License Scanner',
               applicationLegalese: 'Licensed under MIT'),
         ),
-      ]),
+        cupertino: (context, __) => CupertinoNavigationBarData(
+          trailing: PlatformIconButton(
+            icon: Icon(PlatformIcons(context).search),
+            onPressed: () => _search(context),
+          ),
+        ),
+      ),
       body: StreamBuilder(
         stream: service.lastScanned,
         builder: (context, snapshot) {
@@ -44,13 +52,17 @@ class LatestScreen extends StatelessWidget {
           return _scans(snapshot.data, service);
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.search),
-        tooltip: 'Search package',
-        onPressed: () => Navigator.pushNamed(context, 'search'),
+      material: (_, __) => MaterialScaffoldData(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.search),
+          tooltip: 'Search package',
+          onPressed: () => _search(context),
+        ),
       ),
     );
   }
+
+  void _search(BuildContext context) => Navigator.pushNamed(context, 'search');
 
   RefreshIndicator _scans(List<ScanResult> data, ScanService service) {
     return RefreshIndicator(
