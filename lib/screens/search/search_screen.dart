@@ -15,8 +15,8 @@ import 'package:provider/provider.dart';
 import '../../services/scan_result.dart';
 import '../../services/scan_service.dart';
 import '../scan/scan_screen.dart';
-import 'debounce.dart';
 import '../widgets/exception_widget.dart';
+import 'debounce.dart';
 import 'package_widget.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -126,7 +126,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 final package = data[index];
                 final params = ScanScreenParams(
                     package, service.getPackageScanResult(package));
-                Navigator.pushNamed(context, 'scan', arguments: params);
+                Navigator.push(
+                    context,
+                    platformPageRoute(
+                        context: context,
+                        builder: (_) => ScanScreen(),
+                        settings: RouteSettings(arguments: params)));
               },
             ));
   }

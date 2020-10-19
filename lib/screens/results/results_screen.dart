@@ -10,6 +10,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:license_scanner_ui/screens/search/search_screen.dart';
 import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +28,7 @@ class ResultsScreen extends StatelessWidget {
     final service = Provider.of<ScanService>(context, listen: false);
 
     return PlatformTabScaffold(
-      appBarBuilder: (_, index) => PlatformAppBar(
+      appBarBuilder: (context, index) => PlatformAppBar(
         title: Text(titles[index]),
         leading: PlatformIconButton(
           icon: Icon(PlatformIcons(context).info),
@@ -78,8 +79,14 @@ class ResultsScreen extends StatelessWidget {
     return showAboutDialog(
         context: context,
         applicationName: 'License Scanner',
-        applicationLegalese: 'Licensed under MIT');
+        applicationLegalese:
+            'Copyright © 2020-2020 Koninklijke Philips N.V\nAll Rights Reserved');
   }
 
-  void _search(BuildContext context) => Navigator.pushNamed(context, 'search');
+  void _search(BuildContext context) => Navigator.push(
+      context,
+      platformPageRoute(
+        context: context,
+        builder: (_) => SearchScreen(),
+      ));
 }

@@ -12,13 +12,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:license_scanner_ui/screens/results/results_screen.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
 class AppTheme extends StatelessWidget {
-  AppTheme({this.platform, this.routes});
+  AppTheme({this.platform, this.child});
 
   final TargetPlatform platform;
-  final Map<String, Widget Function(BuildContext)> routes;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) => PlatformProvider(
@@ -39,7 +40,6 @@ class AppTheme extends StatelessWidget {
           ),
           material: (_, __) => MaterialAppData(
             themeMode: ThemeMode.light,
-            routes: routes,
             theme: ThemeData(
               primarySwatch: Colors.blue,
               primaryColor: Colors.blue[700],
@@ -49,7 +49,6 @@ class AppTheme extends StatelessWidget {
             ),
           ),
           cupertino: (_, __) => CupertinoAppData(
-            routes: routes,
             localizationsDelegates: [DefaultMaterialLocalizations.delegate],
             theme: CupertinoThemeData(
               scaffoldBackgroundColor: Colors.blue[50],
@@ -58,7 +57,7 @@ class AppTheme extends StatelessWidget {
               brightness: Brightness.light,
             ),
           ),
-          initialRoute: '/',
+          home: child,
         ),
       );
 }

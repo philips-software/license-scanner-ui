@@ -35,7 +35,6 @@ class ScansView extends StatelessWidget {
           onTap: (scan) {
             final uuid = scan.uuid;
             final args = ScanScreenParams(scan, service.getScanResult(uuid));
-            // Navigator.of(context).pushNamed('scan', arguments: args);
             Navigator.push(
                 context,
                 platformPageRoute(

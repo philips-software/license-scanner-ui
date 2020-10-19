@@ -68,6 +68,15 @@ class _LicenseCardState extends State<LicenseCard> {
                     style: TextStyle(color: Colors.orange)),
               ]),
             ),
+          if (widget.scan.isConfirmed)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Icon(Icons.thumb_up_outlined, color: Colors.blue),
+                Text('License was confirmed',
+                    style: TextStyle(color: Colors.blue)),
+              ]),
+            ),
           ButtonBar(children: [
             PlatformButton(
               child: PlatformText('Confirm'),
