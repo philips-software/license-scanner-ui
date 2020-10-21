@@ -14,9 +14,9 @@ import 'package:license_scanner_ui/services/scan_result.dart';
 import 'scan_widget.dart';
 
 class ScanList extends StatelessWidget {
-  ScanList({this.results, this.onTap, this.onRefresh});
+  ScanList(this.scans, {this.onTap, this.onRefresh});
 
-  final List<ScanResult> results;
+  final List<ScanResult> scans;
   final Function(ScanResult scan) onTap;
   final Function() onRefresh;
 
@@ -25,10 +25,10 @@ class ScanList extends StatelessWidget {
     return RefreshIndicator(
       child: Scrollbar(
         child: ListView.builder(
-          itemCount: results.length,
+          itemCount: scans.length,
           itemBuilder: (context, index) => ScanWidget(
-            results[index],
-            onTap: () => onTap(results[index]),
+            scans[index],
+            onTap: () => onTap(scans[index]),
           ),
         ),
       ),

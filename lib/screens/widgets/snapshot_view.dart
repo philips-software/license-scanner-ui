@@ -11,10 +11,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SnapshotView<T> extends StatelessWidget {
-  SnapshotView(this.snapshot, {this.child});
+  SnapshotView(this.snapshot, {this.builder});
 
   final AsyncSnapshot<T> snapshot;
-  final Widget child;
+  final Widget Function(T) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,6 @@ class SnapshotView<T> extends StatelessWidget {
     if (!snapshot.hasData) {
       return PlatformCircularProgressIndicator();
     }
-    return child;
+    return builder(snapshot.data);
   }
 }

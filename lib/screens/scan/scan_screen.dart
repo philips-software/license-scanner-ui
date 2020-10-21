@@ -10,11 +10,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:license_scanner_ui/screens/widgets/snapshot_view.dart';
 
-import '../../screens/widgets/exception_widget.dart';
 import '../../services/scan_result.dart';
 import 'detections_card.dart';
 import 'error_card.dart';
+import 'info_card.dart';
 import 'license_card.dart';
 import 'location_card.dart';
 
@@ -25,26 +26,17 @@ class ScanScreen extends StatelessWidget {
 
     return PlatformScaffold(
       iosContentPadding: true,
-      appBar: PlatformAppBar(
-          title: Text('${params.package.name} - ${params.package.version}')),
+      appBar: PlatformAppBar(title: Text('Scan result')),
       body: FutureBuilder(
         future: params.future,
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return ExceptionWidget(snapshot.error);
-          }
-          if (!snapshot.hasData) {
-            return Center(child: PlatformCircularProgressIndicator());
-          }
-          ScanResult scan = snapshot.data;
-          return Container(
-            width: double.infinity,
-            child: SingleChildScrollView(
-
+          return SnapshotView(
+            snapshot,
+            builder: (scan)=> SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  _namespaceView(scan),
+                  InfoCard(scan),
                   if (scan.error != null) ErrorCard(scan),
                   if (scan.detections.isNotEmpty) DetectionsCard(scan),
                   LicenseCard(scan),

@@ -54,7 +54,7 @@ class _LicenseCardState extends State<LicenseCard> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
+            child: PlatformTextField(
               controller: _controller,
               autofocus: true,
             ),

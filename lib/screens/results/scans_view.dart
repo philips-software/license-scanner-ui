@@ -30,8 +30,8 @@ class ScansView extends StatelessWidget {
       future: scans,
       builder: (context, snapshot) => SnapshotView(
         snapshot,
-        child: ScanList(
-          results: snapshot.data,
+        builder: (list) => ScanList(
+          list,
           onTap: (scan) {
             final uuid = scan.uuid;
             final args = ScanScreenParams(scan, service.getScanResult(uuid));

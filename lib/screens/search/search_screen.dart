@@ -37,9 +37,9 @@ class SearchScreen extends StatelessWidget {
               initialData: <ScanResult>[],
               builder: (context, snapshot) => SnapshotView(
                 snapshot,
-                child: (snapshot.data.isEmpty)
+                builder: (list)=>(list.isEmpty)
                     ? Center(child: Text('(No matches found)'))
-                    : SearchResults(snapshot.data),
+                    : SearchResults(list),
               ),
             ),
           ),
