@@ -41,6 +41,7 @@ class ResultsScreen extends StatelessWidget {
           ),
         ),
       ),
+      tabController: PlatformTabController(),
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.error),

@@ -18,10 +18,12 @@ class SnapshotView<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (snapshot.hasError) return ErrorWidget(snapshot.error);
-    if (!snapshot.hasData) return PlatformCircularProgressIndicator();
+    if (snapshot.hasError) {
+      return ErrorWidget(snapshot.error);
+    }
+    if (!snapshot.hasData) {
+      return PlatformCircularProgressIndicator();
+    }
     return child;
   }
 }
-
-

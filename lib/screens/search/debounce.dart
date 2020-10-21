@@ -14,9 +14,9 @@ import 'dart:async';
 class Debounce {
   final Duration period;
 
-  Timer _timer;
-
   Debounce(this.period);
+
+  Timer _timer;
 
   run(Function() action) {
     if (_timer != null) {
