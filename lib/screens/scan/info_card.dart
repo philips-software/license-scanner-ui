@@ -24,14 +24,7 @@ class InfoCard extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: Icon(PlatformIcons(context).info),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(scan.name, style: style.headline4),
-            if (scan.version.isNotEmpty) Text('Version ${scan.version}'),
-            if (scan.namespace.isNotEmpty) Text(scan.namespace),
-          ],
-        ),
+        title: Text(scan.purl.toString(), style: style.headline4),
       ),
     );
   }

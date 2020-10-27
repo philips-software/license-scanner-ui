@@ -16,7 +16,7 @@ import 'scanner_client.dart';
 /// Service API for accessing scanning results.
 class ScanService {
   final _scannedController = StreamController<List<ScanResult>>.broadcast();
-  final _searchController = StreamController<List<ScanResult>>.broadcast();
+  final _searchController = StreamController<List<Uri>>.broadcast();
   final _scannerClient = ScannerClient();
 
   /// Provides the latest scan results.
@@ -30,7 +30,7 @@ class ScanService {
       _scannerClient.refreshScanned(_scannedController.sink);
 
   /// Provides search results.
-  Stream<List<ScanResult>> get lastSearched => _searchController.stream;
+  Stream<List<Uri>> get lastSearched => _searchController.stream;
 
   /// Searches for packages matching [namespace] and [name], producing
   /// results in the [lastSearched] stream.
@@ -50,13 +50,13 @@ class ScanService {
   Future<ScanResult> getScanResult(String uuid) =>
       _scannerClient.scanResultByUuid(uuid);
 
-  /// Returns the most recent scan result for [package].
-  Future<ScanResult> getPackageScanResult(ScanResult package) =>
-      _scannerClient.scanResultByPackage(package);
+  /// Returns the most recent scan result for [purl].
+  Future<ScanResult> getPackageScanResult(Uri purl) =>
+      _scannerClient.scanResultByPackage(purl);
 
-  /// Trigger new scan of an existing [package] from [location].
-  Future<void> rescan(ScanResult package, String location) =>
-      _scannerClient.rescan(package, location);
+  /// Trigger new scan of an existing [purl] from [location].
+  Future<void> rescan(Uri purl, String location) =>
+      _scannerClient.rescan(purl, location);
 
   /// Override the [license] for the scan indicated by the [uuid].
   /// If no license is provided, the existing license value is confirmed.

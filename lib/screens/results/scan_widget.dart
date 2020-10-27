@@ -23,7 +23,7 @@ class ScanWidget extends StatelessWidget {
     return Material(
       child: ListTile(
         leading: _iconFor(scan),
-        title: Text(title(scan)),
+        title: Text(scan.purl.toString()),
         subtitle: (scan.error == null)
             ? Text(scan.license ?? '')
             : Text(
@@ -36,11 +36,6 @@ class ScanWidget extends StatelessWidget {
         onTap: onTap,
       ),
     );
-  }
-
-  static String title(ScanResult scan) {
-    final name = '${scan.name} ${scan.version}';
-    return (scan.namespace.isEmpty) ? name : name + ' (${scan.namespace})';
   }
 
   static Icon _iconFor(ScanResult scan) {

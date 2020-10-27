@@ -36,5 +36,3 @@ class ScanList extends StatelessWidget {
     );
   }
 }
-
-

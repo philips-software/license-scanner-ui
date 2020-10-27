@@ -9,10 +9,10 @@
  */
 
 class ScanResult {
+  ScanResult({this.uuid, this.purl});
+
   final String uuid;
-  final String namespace;
-  final String name;
-  final String version;
+  final Uri purl;
 
   String license = '';
   String location;
@@ -22,14 +22,10 @@ class ScanResult {
   bool isContested = false;
   bool isConfirmed = false;
 
-  ScanResult(this.uuid, this.namespace, this.name, this.version);
-
   factory ScanResult.fromMap(Map<String, dynamic> map) {
     final result = ScanResult(
-      map['id'],
-      map['namespace'] ?? '',
-      map['name'],
-      map['version'],
+      uuid: map['id'],
+      purl: Uri.parse(map['purl']),
     );
     result.license = map['license'];
     result.location = map['location'];
@@ -47,6 +43,9 @@ class ScanResult {
 
   static List<ScanResult> fromList(List<dynamic> list) =>
       list.map((m) => ScanResult.fromMap(m)).toList(growable: false);
+
+  static List<Uri> fromPurlList(List<dynamic> list) =>
+      list.map((uri) => Uri.parse(uri)).toList(growable: false);
 }
 
 class Detection {

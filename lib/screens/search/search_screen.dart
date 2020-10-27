@@ -34,10 +34,10 @@ class SearchScreen extends StatelessWidget {
           Expanded(
             child: StreamBuilder(
               stream: _service.lastSearched,
-              initialData: <ScanResult>[],
+              initialData: <Uri>[],
               builder: (context, snapshot) => SnapshotView(
                 snapshot,
-                builder: (list)=>(list.isEmpty)
+                builder: (list) => (list.isEmpty)
                     ? Center(child: Text('(No matches found)'))
                     : SearchResults(list),
               ),

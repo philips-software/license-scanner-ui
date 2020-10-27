@@ -12,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SearchField extends StatefulWidget {
-  SearchField({this.hint, this.ignoreEmpty=false, this.onChange});
+  SearchField({this.hint, this.ignoreEmpty = false, this.onChange});
 
   final String hint;
-  final bool ignoreEmpty ;
+  final bool ignoreEmpty;
   final Function(String input) onChange;
 
   @override

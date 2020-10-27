@@ -26,13 +26,14 @@ class ScanScreen extends StatelessWidget {
 
     return PlatformScaffold(
       iosContentPadding: true,
+      iosContentBottomPadding: true,
       appBar: PlatformAppBar(title: Text('Scan result')),
       body: FutureBuilder(
         future: params.future,
         builder: (context, snapshot) {
           return SnapshotView(
             snapshot,
-            builder: (scan)=> SingleChildScrollView(
+            builder: (scan) => SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -49,21 +50,10 @@ class ScanScreen extends StatelessWidget {
       ),
     );
   }
-
-  Widget _namespaceView(ScanResult scan) =>
-      (scan.namespace?.isNotEmpty ?? false)
-          ? Text(
-              scan.namespace,
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            )
-          : Text('(no namespace)');
 }
 
 class ScanScreenParams {
-  final ScanResult package;
   final Future<ScanResult> future;
 
-  ScanScreenParams(this.package, this.future);
+  ScanScreenParams(this.future);
 }

@@ -85,7 +85,7 @@ class _LocationCardState extends State<LocationCard> {
               PlatformButton(
                 child: PlatformText('Rescan'),
                 onPressed: () => service
-                    .rescan(widget.scan, _controller.text)
+                    .rescan(widget.scan.purl, _controller.text)
                     .whenComplete(() => Navigator.of(context).pop())
                     .catchError((e) => showError(context, e.toString())),
               ),

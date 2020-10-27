@@ -11,31 +11,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
 import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
 
 class SearchResults extends StatelessWidget {
   SearchResults(this.packages);
 
-  final List<ScanResult> packages;
+  final List<Uri> packages;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: packages.length,
         itemBuilder: (context, index) {
-          final package = packages[index];
+          final purl = packages[index];
           final service = Provider.of<ScanService>(context, listen: false);
 
           return Material(
             child: ListTile(
               leading: Icon(Icons.source),
-              title: Text('${package.name} ${package.version}'),
-              subtitle: Text(package.namespace),
+              title: Text(purl.toString()),
               onTap: () {
-                final params = ScanScreenParams(
-                    package, service.getPackageScanResult(package));
+                final params =
+                    ScanScreenParams(service.getPackageScanResult(purl));
                 Navigator.push(
                     context,
                     platformPageRoute(

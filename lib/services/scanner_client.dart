@@ -32,8 +32,7 @@ class ScannerClient {
   }
 
   /// Queries for named package, reporting results and errors in the [sink].
-  void search(
-      StreamSink<List<ScanResult>> sink, String namespace, String name) async {
+  void search(StreamSink<List<Uri>> sink, String namespace, String name) async {
     _catchErrorsToSink(sink, () async {
       final json = await _get(baseUrl.resolve('packages').replace(
         queryParameters: {
@@ -41,7 +40,7 @@ class ScannerClient {
           'name': Uri.encodeComponent(name),
         },
       ));
-      sink.add(ScanResult.fromList(json['results']));
+      sink.add(ScanResult.fromPurlList(json['results']));
     });
   }
 
@@ -79,22 +78,15 @@ class ScannerClient {
     return ScanResult.fromMap(json);
   }
 
-  Future<ScanResult> scanResultByPackage(ScanResult pkg) async {
-    final path = 'packages/${_pathForPackage(pkg)}';
+  Future<ScanResult> scanResultByPackage(Uri purl) async {
+    final path = 'packages/${_encode(purl)}';
+    log('requesting: $path');
     final json = await _get(baseUrl.resolve(path));
     return ScanResult.fromMap(json);
   }
 
-  String _pathForPackage(ScanResult pkg) {
-    final namespace = Uri.encodeComponent(pkg.namespace);
-    final name = Uri.encodeComponent(pkg.name);
-    final version =
-        Uri.encodeComponent(pkg.version.isNotEmpty ? pkg.version : " ");
-    return '$namespace/$name/$version';
-  }
-
-  Future<void> rescan(ScanResult package, String location) async {
-    final path = 'packages/${_pathForPackage(package)}?force=yes';
+  Future<void> rescan(Uri purl, String location) async {
+    final path = 'packages/${_encode(purl)}?force=yes';
     final body = {'location': location};
     await _post(
       baseUrl.resolve(path).replace(
@@ -110,7 +102,10 @@ class ScannerClient {
     await _put(baseUrl.resolve(path), body: body);
   }
 
-  Future< dynamic> _get(Uri query) async {
+  String _encode(Uri purl) =>
+      Uri.encodeComponent(Uri.encodeComponent(purl.toString()));
+
+  Future<dynamic> _get(Uri query) async {
     final response = await _dio.getUri(query);
     return _assertSuccess(response);
   }
