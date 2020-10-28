@@ -15,19 +15,8 @@ import 'scanner_client.dart';
 
 /// Service API for accessing scanning results.
 class ScanService {
-  final _scannedController = StreamController<List<ScanResult>>.broadcast();
   final _searchController = StreamController<List<Uri>>.broadcast();
   final _scannerClient = ScannerClient();
-
-  /// Provides the latest scan results.
-  Stream<List<ScanResult>> get lastScanned {
-    refreshScans();
-    return _scannedController.stream;
-  }
-
-  /// Updates the latest scanned list
-  Future<void> refreshScans() =>
-      _scannerClient.refreshScanned(_scannedController.sink);
 
   /// Provides search results.
   Stream<List<Uri>> get lastSearched => _searchController.stream;
@@ -64,7 +53,6 @@ class ScanService {
       _scannerClient.confirm(uuid, license);
 
   void dispose() {
-    _scannedController.close();
     _searchController.close();
   }
 }

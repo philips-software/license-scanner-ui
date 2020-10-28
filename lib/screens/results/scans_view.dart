@@ -17,34 +17,57 @@ import 'package:provider/provider.dart';
 
 import 'scan_list.dart';
 
-class ScansView extends StatelessWidget {
-  ScansView({this.scans});
+class ScansView extends StatefulWidget {
+  ScansView({this.query});
 
-  final Future<List<ScanResult>> scans;
+  final Future<List<ScanResult>> Function() query;
+
+  @override
+  _ScansViewState createState() => _ScansViewState();
+}
+
+class _ScansViewState extends State<ScansView> {
+  Future<List<ScanResult>> future;
+
+  @override
+  void initState() {
+    super.initState();
+    future = widget.query();
+  }
 
   @override
   Widget build(BuildContext context) {
     final service = Provider.of<ScanService>(context, listen: false);
 
     return FutureBuilder(
-      future: scans,
+      future: future,
       builder: (context, snapshot) => SnapshotView(
         snapshot,
         builder: (list) => ScanList(
           list,
-          onTap: (scan) {
+          onTap: (scan) async {
             final uuid = scan.uuid;
             final args = ScanScreenParams(service.getScanResult(uuid));
-            Navigator.push(
+            await Navigator.push(
                 context,
                 platformPageRoute(
                     context: context,
                     builder: (context) => ScanScreen(),
                     settings: RouteSettings(arguments: args)));
+            _refresh();
           },
-          onRefresh: () => service.refreshScans(),
+          onRefresh: () {
+            _refresh();
+            return future;
+          },
         ),
       ),
     );
+  }
+
+  void _refresh() {
+    setState(() {
+      future = widget.query();
+    });
   }
 }

@@ -24,26 +24,27 @@ class SearchScreen extends StatelessWidget {
     final _service = Provider.of<ScanService>(context, listen: false);
 
     return PlatformScaffold(
-      iosContentPadding: true,
       appBar: PlatformAppBar(
         title: Text('Search'),
       ),
-      body: Column(
-        children: [
-          NamesFilter(onFilter: (ns, name) => _service.search(ns, name)),
-          Expanded(
-            child: StreamBuilder(
-              stream: _service.lastSearched,
-              initialData: <Uri>[],
-              builder: (context, snapshot) => SnapshotView(
-                snapshot,
-                builder: (list) => (list.isEmpty)
-                    ? Center(child: Text('(No matches found)'))
-                    : SearchResults(list),
+      body: SafeArea(
+        child: Column(
+          children: [
+            NamesFilter(onFilter: (ns, name) => _service.search(ns, name)),
+            Expanded(
+              child: StreamBuilder(
+                stream: _service.lastSearched,
+                initialData: <Uri>[],
+                builder: (context, snapshot) => SnapshotView(
+                  snapshot,
+                  builder: (list) => (list.isEmpty)
+                      ? Center(child: Text('(No matches found)'))
+                      : SearchResults(list),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

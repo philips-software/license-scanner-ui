@@ -26,7 +26,7 @@ class ScannerClient {
   /// Queries latest scanned packages, reporting results and errors in the [sink].
   Future<void> refreshScanned(EventSink<List<ScanResult>> sink) async {
     return _catchErrorsToSink(sink, () async {
-      final json = await _get(baseUrl.resolve('scans'));
+      final json = await _get<Map<String, dynamic>>(baseUrl.resolve('scans'));
       sink.add(ScanResult.fromList(json['results']));
     });
   }
@@ -34,7 +34,8 @@ class ScannerClient {
   /// Queries for named package, reporting results and errors in the [sink].
   void search(StreamSink<List<Uri>> sink, String namespace, String name) async {
     _catchErrorsToSink(sink, () async {
-      final json = await _get(baseUrl.resolve('packages').replace(
+      final json =
+          await _get<Map<String, dynamic>>(baseUrl.resolve('packages').replace(
         queryParameters: {
           'namespace': Uri.encodeComponent(namespace),
           'name': Uri.encodeComponent(name),
@@ -55,33 +56,36 @@ class ScannerClient {
   }
 
   Future<List<ScanResult>> latestScanResults() async {
-    final json = await _get(baseUrl.resolve('scans'));
+    final json = await _get<Map<String, dynamic>>(baseUrl.resolve('scans'));
     return ScanResult.fromList(json['results']);
   }
 
   Future<List<ScanResult>> scanErrors() async {
-    final json = await _get(baseUrl.resolve('scans').replace(
+    final json =
+        await _get<Map<String, dynamic>>(baseUrl.resolve('scans').replace(
       queryParameters: {'q': 'errors'},
     ));
     return ScanResult.fromList(json['results']);
   }
 
   Future<List<ScanResult>> contested() async {
-    final json = await _get(baseUrl.resolve('scans').replace(
+    final json =
+        await _get<Map<String, dynamic>>(baseUrl.resolve('scans').replace(
       queryParameters: {'q': 'contested'},
     ));
     return ScanResult.fromList(json['results']);
   }
 
   Future<ScanResult> scanResultByUuid(String uuid) async {
-    final json = await _get(baseUrl.resolve('scans/$uuid'));
+    final json =
+        await _get<Map<String, dynamic>>(baseUrl.resolve('scans/$uuid'));
     return ScanResult.fromMap(json);
   }
 
   Future<ScanResult> scanResultByPackage(Uri purl) async {
     final path = 'packages/${_encode(purl)}';
     log('requesting: $path');
-    final json = await _get(baseUrl.resolve(path));
+    final json = await _get<Map<String, dynamic>>(baseUrl.resolve(path));
     return ScanResult.fromMap(json);
   }
 
@@ -105,13 +109,13 @@ class ScannerClient {
   String _encode(Uri purl) =>
       Uri.encodeComponent(Uri.encodeComponent(purl.toString()));
 
-  Future<dynamic> _get(Uri query) async {
-    final response = await _dio.getUri(query);
+  Future<T> _get<T>(Uri query) async {
+    final response = await _dio.getUri<T>(query);
     return _assertSuccess(response);
   }
 
-  Future<Map<String, dynamic>> _post(Uri query, {dynamic body}) async {
-    final response = await _dio.postUri(
+  Future<T> _post<T>(Uri query, {dynamic body}) async {
+    final response = await _dio.postUri<T>(
       query,
       data: body,
       options: Options(contentType: ContentType.json.toString()),
@@ -119,8 +123,8 @@ class ScannerClient {
     return _assertSuccess(response);
   }
 
-  Future<Map<String, dynamic>> _put(Uri query, {dynamic body}) async {
-    final response = await _dio.putUri(
+  Future<T> _put<T>(Uri query, {dynamic body}) async {
+    final response = await _dio.putUri<T>(
       query,
       data: body,
       options: Options(contentType: ContentType.json.toString()),

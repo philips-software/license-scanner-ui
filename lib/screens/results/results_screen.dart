@@ -59,11 +59,11 @@ class ResultsScreen extends StatelessWidget {
       bodyBuilder: (_, index) {
         switch (index) {
           case 0:
-            return ScansView(scans: service.errors());
+            return ScansView(query: service.errors);
           case 1:
-            return ScansView(scans: service.contested());
+            return ScansView(query: service.contested);
           default:
-            return ScansView(scans: service.latest());
+            return ScansView(query: service.latest);
         }
       },
       material: (_, __) => MaterialTabScaffoldData(

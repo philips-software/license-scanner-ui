@@ -7,6 +7,8 @@
  *
  * All Rights Reserved
  */
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:license_scanner_ui/services/scan_result.dart';
@@ -18,7 +20,7 @@ class ScanList extends StatelessWidget {
 
   final List<ScanResult> scans;
   final Function(ScanResult scan) onTap;
-  final Function() onRefresh;
+  final Future Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {

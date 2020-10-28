@@ -25,28 +25,28 @@ class ScanScreen extends StatelessWidget {
     final ScanScreenParams params = ModalRoute.of(context).settings.arguments;
 
     return PlatformScaffold(
-      iosContentPadding: true,
-      iosContentBottomPadding: true,
       appBar: PlatformAppBar(title: Text('Scan result')),
-      body: FutureBuilder(
-        future: params.future,
-        builder: (context, snapshot) {
-          return SnapshotView(
-            snapshot,
-            builder: (scan) => SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InfoCard(scan),
-                  if (scan.error != null) ErrorCard(scan),
-                  if (scan.detections.isNotEmpty) DetectionsCard(scan),
-                  LicenseCard(scan),
-                  LocationCard(scan),
-                ],
+      body: SafeArea(
+        child: FutureBuilder(
+          future: params.future,
+          builder: (context, snapshot) {
+            return SnapshotView(
+              snapshot,
+              builder: (scan) => SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    InfoCard(scan),
+                    if (scan.error != null) ErrorCard(scan),
+                    if (scan.detections.isNotEmpty) DetectionsCard(scan),
+                    LicenseCard(scan),
+                    LocationCard(scan),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
