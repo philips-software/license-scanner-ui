@@ -100,10 +100,16 @@ class ScannerClient {
     );
   }
 
-  Future<void> confirm(String uuid, String license) async {
-    final path = 'scans/$uuid';
+  Future<void> confirm(String scanId, String license) async {
+    final path = 'scans/$scanId';
     final body = {'license': license};
     await _put(baseUrl.resolve(path), body: body);
+  }
+
+  Future<void> ignore(String scanId, String license,
+      {bool ignore = true}) async {
+    final path = 'scans/$scanId/ignore/${license}?revert=${!ignore}';
+    await _post(baseUrl.resolve(path));
   }
 
   String _encode(Uri purl) =>

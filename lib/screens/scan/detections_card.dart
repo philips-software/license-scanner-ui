@@ -31,7 +31,7 @@ class DetectionsCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: DetectionsCarousel(scan.detections),
+              child: DetectionsCarousel(scan),
             ),
           ],
         ),

@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'scan_list.dart';
 
 class ScansView extends StatefulWidget {
-  ScansView({this.query});
+  ScansView({this.query}) : super(key: GlobalObjectKey(query));
 
   final Future<List<ScanResult>> Function() query;
 

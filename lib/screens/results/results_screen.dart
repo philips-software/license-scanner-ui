@@ -44,15 +44,18 @@ class ResultsScreen extends StatelessWidget {
       tabController: PlatformTabController(),
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.error),
+          icon: Icon(Icons.error_outline),
+          activeIcon: Icon(Icons.error),
           label: 'Errors',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.warning),
+          icon: Icon(Icons.warning_amber_outlined),
+          activeIcon: Icon(Icons.warning),
           label: 'Contested',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.history),
+          icon: Icon(Icons.history_outlined),
+          activeIcon: Icon(Icons.history),
           label: 'Latest',
         ),
       ],

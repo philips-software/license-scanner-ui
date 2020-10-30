@@ -47,10 +47,14 @@ class ScanService {
   Future<void> rescan(Uri purl, String location) =>
       _scannerClient.rescan(purl, location);
 
-  /// Override the [license] for the scan indicated by the [uuid].
+  /// Override the [license] for the [scan].
   /// If no license is provided, the existing license value is confirmed.
-  Future<void> confirm(String uuid, String license) =>
-      _scannerClient.confirm(uuid, license);
+  Future<void> confirm(ScanResult scan, String license) =>
+      _scannerClient.confirm(scan.uuid, license);
+
+  /// Marks the detection for [license] of [scan] as false-positive.
+  Future<void> ignore(ScanResult scan, String license, {ignore = true}) =>
+      _scannerClient.ignore(scan.uuid, license, ignore: ignore);
 
   void dispose() {
     _searchController.close();

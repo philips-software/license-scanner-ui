@@ -12,7 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:license_scanner_ui/screens/results/results_screen.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
 class AppTheme extends StatelessWidget {

@@ -17,8 +17,8 @@ import 'package:provider/provider.dart';
 
 import 'services/scan_service.dart';
 
-// const platform = TargetPlatform.fuchsia;
-const platform = TargetPlatform.macOS;
+const platform = TargetPlatform.fuchsia;
+// const platform = TargetPlatform.macOS;
 
 void main() {
   runApp(LicenseScannerApp());

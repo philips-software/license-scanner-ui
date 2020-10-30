@@ -8,6 +8,8 @@
  * All Rights Reserved
  */
 
+import 'detection.dart';
+
 class ScanResult {
   ScanResult({this.uuid, this.purl});
 
@@ -46,25 +48,4 @@ class ScanResult {
 
   static List<Uri> fromPurlList(List<dynamic> list) =>
       list.map((uri) => Uri.parse(uri)).toList(growable: false);
-}
-
-class Detection {
-  final String license;
-  final String file;
-  final int startLine;
-  final int endLine;
-  final int confirmations;
-
-  Detection(this.license, this.file, this.startLine, this.endLine,
-      this.confirmations);
-
-  factory Detection.fromMap(Map<String, dynamic> map) {
-    return Detection(
-      map['license'],
-      map['file'] ?? '?',
-      map['start_line'] ?? 0,
-      map['end_line'] ?? 0,
-      map['confirmations'] ?? 0,
-    );
-  }
 }

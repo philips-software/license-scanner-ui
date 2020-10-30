@@ -81,7 +81,7 @@ class _LicenseCardState extends State<LicenseCard> {
             PlatformButton(
               child: PlatformText('Confirm'),
               onPressed: () => service
-                  .confirm(widget.scan.uuid, _controller.text)
+                  .confirm(widget.scan, _controller.text)
                   .whenComplete(() => Navigator.of(context).pop())
                   .catchError((e) => showError(context, e.toString())),
             ),
