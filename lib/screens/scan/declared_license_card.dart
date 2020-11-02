@@ -16,16 +16,16 @@ import '../../screens/widgets/shared.dart';
 import '../../services/scan_result.dart';
 import '../../services/scan_service.dart';
 
-class LicenseCard extends StatefulWidget {
+class DeclaredLicenseCard extends StatefulWidget {
+  DeclaredLicenseCard(this.scan);
+
   final ScanResult scan;
 
-  LicenseCard(this.scan);
-
   @override
-  _LicenseCardState createState() => _LicenseCardState();
+  _DeclaredLicenseCardState createState() => _DeclaredLicenseCardState();
 }
 
-class _LicenseCardState extends State<LicenseCard> {
+class _DeclaredLicenseCardState extends State<DeclaredLicenseCard> {
   final _controller = new TextEditingController();
 
   @override
@@ -50,7 +50,7 @@ class _LicenseCardState extends State<LicenseCard> {
         child: Column(children: [
           ListTile(
             leading: Icon(Icons.verified),
-            title: Text('License'),
+            title: Text('Declared license'),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

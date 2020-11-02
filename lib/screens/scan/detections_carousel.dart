@@ -17,9 +17,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'detection_card.dart';
 
 class DetectionsCarousel extends StatefulWidget {
-  DetectionsCarousel(this.result);
+  DetectionsCarousel(this.result, {this.onDetectionChange});
 
   final ScanResult result;
+  final Function() onDetectionChange;
 
   @override
   _DetectionsCarouselState createState() => _DetectionsCarouselState();
@@ -45,6 +46,7 @@ class _DetectionsCarouselState extends State<DetectionsCarousel> {
                               ignore: !detection.ignored)
                           .then((_) => setState(() {
                                 detection.ignored = !detection.ignored;
+                                widget.onDetectionChange();
                               })),
                     ))
                 .toList(),
