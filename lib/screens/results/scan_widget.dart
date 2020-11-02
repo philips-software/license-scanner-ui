@@ -9,14 +9,16 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../services/scan_result.dart';
 
 class ScanWidget extends StatelessWidget {
+  ScanWidget(this.scan, {this.onTap});
+
+  static final dateFormat = DateFormat('dd-MM-yyyy HH:mm');
   final ScanResult scan;
   final Function onTap;
-
-  ScanWidget(this.scan, {this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,8 @@ class ScanWidget extends StatelessWidget {
         leading: _iconFor(scan),
         title: Text(scan.purl.toString()),
         subtitle: (scan.error == null)
-            ? Text(scan.license ?? '')
+            ? Text((scan.license ?? '') +
+                '\nScanned: ${dateFormat.format(scan.timestamp)}')
             : Text(
                 scan.error,
                 style: TextStyle(

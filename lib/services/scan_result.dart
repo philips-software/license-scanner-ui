@@ -11,10 +11,11 @@
 import 'detection.dart';
 
 class ScanResult {
-  ScanResult({this.uuid, this.purl});
+  ScanResult({this.uuid, this.purl, this.timestamp});
 
   final String uuid;
   final Uri purl;
+  final DateTime timestamp;
 
   String license = '';
   String location;
@@ -28,6 +29,7 @@ class ScanResult {
     final result = ScanResult(
       uuid: map['id'],
       purl: Uri.parse(map['purl']),
+      timestamp: DateTime.parse(map['timestamp']),
     );
     result.license = map['license'];
     result.location = map['location'];

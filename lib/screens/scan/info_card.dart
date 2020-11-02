@@ -10,12 +10,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:license_scanner_ui/services/scan_result.dart';
 
 class InfoCard extends StatelessWidget {
   InfoCard(this.scan);
 
   final ScanResult scan;
+  static final dateFormat = DateFormat("dd-MM-yyyy HH:mm");
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,8 @@ class InfoCard extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: Icon(PlatformIcons(context).info),
-        title: Text(scan.purl.toString(), style: style.headline4),
+        title: Text(scan.purl.toString(), style: TextStyle(fontSize: 20)),
+        subtitle: Text('Scanned: ${dateFormat.format(scan.timestamp)}'),
       ),
     );
   }
