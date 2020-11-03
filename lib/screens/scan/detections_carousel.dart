@@ -9,11 +9,11 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../model/scan_result.dart';
+import '../../services/scan_service.dart';
 import 'detection_card.dart';
 
 class DetectionsCarousel extends StatefulWidget {

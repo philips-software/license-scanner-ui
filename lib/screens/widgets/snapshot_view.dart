@@ -22,7 +22,7 @@ class SnapshotView<T> extends StatelessWidget {
       return ErrorWidget(snapshot.error);
     }
     if (!snapshot.hasData) {
-      return PlatformCircularProgressIndicator();
+      return Center(child: PlatformCircularProgressIndicator());
     }
     return builder(snapshot.data);
   }

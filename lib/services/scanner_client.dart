@@ -15,7 +15,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import 'scan_result.dart';
+import '../model/scan_result.dart';
 
 /// License Scanner service client.
 /// See https://github.com/philips-labs/license-scanner

@@ -10,9 +10,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
+
+import '../../services/scan_service.dart';
+import '../scan/scan_screen.dart';
 
 class SearchResults extends StatelessWidget {
   SearchResults(this.packages);

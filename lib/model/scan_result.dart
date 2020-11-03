@@ -8,7 +8,7 @@
  * All Rights Reserved
  */
 
-import 'detection.dart';
+import '../model/detection.dart';
 
 class ScanResult {
   ScanResult({this.uuid, this.purl, this.timestamp});

@@ -9,7 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/services/detection.dart';
+import '../../model/detection.dart';
 
 class DetectionCard extends StatelessWidget {
   DetectionCard(this.detection, {this.onIgnore});

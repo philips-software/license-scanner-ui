@@ -9,12 +9,12 @@
  */
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
-import 'package:license_scanner_ui/screens/widgets/snapshot_view.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/scan_result.dart';
+import '../../services/scan_service.dart';
+import '../scan/scan_screen.dart';
+import '../widgets/snapshot_view.dart';
 import 'scan_list.dart';
 
 class ScansView extends StatefulWidget {

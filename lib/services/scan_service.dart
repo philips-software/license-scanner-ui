@@ -10,7 +10,7 @@
 
 import 'dart:async';
 
-import 'scan_result.dart';
+import '../model/scan_result.dart';
 import 'scanner_client.dart';
 
 /// Service API for accessing scanning results.

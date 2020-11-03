@@ -13,7 +13,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../screens/widgets/shared.dart';
-import '../../services/scan_result.dart';
+import '../../model/scan_result.dart';
 import '../../services/scan_service.dart';
 
 class DeclaredLicenseCard extends StatefulWidget {

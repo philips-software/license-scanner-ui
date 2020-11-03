@@ -10,10 +10,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:license_scanner_ui/services/scan_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/scan_result.dart';
+import '../../model/scan_result.dart';
+import '../../services/scan_service.dart';
 import 'detections_carousel.dart';
 
 class DetectedLicenseCard extends StatefulWidget {
@@ -58,10 +58,10 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
-                license.isNotEmpty ? license : '(No license detected)',
-                style: Theme.of(context).textTheme.headline6,
-              ),
+              child: (license.isNotEmpty)
+                  ? Text(license, style: Theme.of(context).textTheme.headline6)
+                  : Text('(No license detected)',
+                      style: TextStyle(fontStyle: FontStyle.italic)),
             ),
             ButtonBar(
               children: [
@@ -83,11 +83,15 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
     );
   }
 
-  String _detectedLicense() => widget.scan.detections
-      .where((d) => !d.ignored)
-      .map((d) => d.license)
-      .map((lic) => _isCombinedExpression(lic) ? '($lic)' : lic)
-      .join(' AND ');
+  String _detectedLicense() {
+    final licenses =
+        widget.scan.detections.where((d) => !d.ignored).map((d) => d.license);
+    return (licenses.length == 1)
+        ? licenses.first
+        : licenses
+            .map((lic) => _isCombinedExpression(lic) ? '($lic)' : lic)
+            .join(' AND ');
+  }
 
   bool _isCombinedExpression(String license) {
     final lower = license.toLowerCase();

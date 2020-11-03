@@ -10,7 +10,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../services/scan_result.dart';
+import '../../model/scan_result.dart';
 
 class ErrorCard extends StatelessWidget {
   final ScanResult scan;

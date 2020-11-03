@@ -11,9 +11,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
 
-import 'scan_widget.dart';
+import '../../model/scan_result.dart';
+import 'scan_result_tile.dart';
 
 class ScanList extends StatelessWidget {
   ScanList(this.scans, {this.onTap, this.onRefresh});
@@ -28,7 +28,7 @@ class ScanList extends StatelessWidget {
       child: Scrollbar(
         child: ListView.builder(
           itemCount: scans.length,
-          itemBuilder: (context, index) => ScanWidget(
+          itemBuilder: (context, index) => ScanResultTile(
             scans[index],
             onTap: () => onTap(scans[index]),
           ),

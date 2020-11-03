@@ -10,11 +10,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:license_scanner_ui/screens/widgets/snapshot_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/scan_result.dart';
 import '../../services/scan_service.dart';
+import '../widgets/snapshot_view.dart';
 import 'names_filter.dart';
 import 'search_results.dart';
 

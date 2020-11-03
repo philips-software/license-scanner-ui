@@ -11,7 +11,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:license_scanner_ui/services/scan_result.dart';
+import '../../model/scan_result.dart';
 
 class InfoCard extends StatelessWidget {
   InfoCard(this.scan);

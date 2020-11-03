@@ -11,10 +11,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:license_scanner_ui/screens/app_theme.dart';
-import 'package:license_scanner_ui/screens/results/results_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'screens/app_theme.dart';
+import 'screens/results/results_screen.dart';
 import 'services/scan_service.dart';
 
 const platform = TargetPlatform.fuchsia;

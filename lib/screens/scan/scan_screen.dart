@@ -10,13 +10,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:license_scanner_ui/screens/widgets/snapshot_view.dart';
 
-import '../../services/scan_result.dart';
+import '../../model/scan_result.dart';
+import '../widgets/snapshot_view.dart';
+import 'declared_license_card.dart';
 import 'detected_license_card.dart';
 import 'error_card.dart';
 import 'info_card.dart';
-import 'declared_license_card.dart';
 import 'location_card.dart';
 
 class ScanScreen extends StatelessWidget {
