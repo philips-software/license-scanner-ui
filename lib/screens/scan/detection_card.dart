@@ -25,6 +25,7 @@ class DetectionCard extends StatelessWidget {
           children: [
             Text(
               detection.license,
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             ListTile(

@@ -27,9 +27,10 @@ class DetectionsCarousel extends StatefulWidget {
 }
 
 class _DetectionsCarouselState extends State<DetectionsCarousel> {
+  final controller = PageController(viewportFraction: 0.8);
+
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 0.8);
     final service = Provider.of<ScanService>(context, listen: false);
 
     return Column(
