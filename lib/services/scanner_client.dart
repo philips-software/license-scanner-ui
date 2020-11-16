@@ -17,19 +17,14 @@ import 'package:flutter/foundation.dart';
 
 import '../model/scan_result.dart';
 
+typedef StatsCallback = void Function(
+    {int licenses, int errors, int contested});
+
 /// License Scanner service client.
 /// See https://github.com/philips-labs/license-scanner
 class ScannerClient {
-  final baseUrl = Uri.http(kIsWeb ? '' : 'localhost:8080', '/');
+  final baseUrl = Uri.http(kIsWeb && !kDebugMode ? '' : 'localhost:8080', '/');
   final _dio = Dio();
-
-  /// Queries latest scanned packages, reporting results and errors in the [sink].
-  Future<void> refreshScanned(EventSink<List<ScanResult>> sink) async {
-    return _catchErrorsToSink(sink, () async {
-      final json = await _get<Map<String, dynamic>>(baseUrl.resolve('scans'));
-      sink.add(ScanResult.fromList(json['results']));
-    });
-  }
 
   /// Queries for named package, reporting results and errors in the [sink].
   void search(StreamSink<List<Uri>> sink, String namespace, String name) async {
@@ -55,24 +50,27 @@ class ScannerClient {
     }
   }
 
-  Future<List<ScanResult>> latestScanResults() async {
+  Future<List<ScanResult>> latestScanResults([StatsCallback callback]) async {
     final json = await _get<Map<String, dynamic>>(baseUrl.resolve('scans'));
+    _reportStats(callback, json);
     return ScanResult.fromList(json['results']);
   }
 
-  Future<List<ScanResult>> scanErrors() async {
+  Future<List<ScanResult>> scanErrors([StatsCallback callback]) async {
     final json =
         await _get<Map<String, dynamic>>(baseUrl.resolve('scans').replace(
       queryParameters: {'q': 'errors'},
     ));
+    _reportStats(callback, json);
     return ScanResult.fromList(json['results']);
   }
 
-  Future<List<ScanResult>> contested() async {
+  Future<List<ScanResult>> contested([StatsCallback callback]) async {
     final json =
         await _get<Map<String, dynamic>>(baseUrl.resolve('scans').replace(
       queryParameters: {'q': 'contested'},
     ));
+    _reportStats(callback, json);
     return ScanResult.fromList(json['results']);
   }
 
@@ -148,5 +146,13 @@ class ScannerClient {
     }
 
     return response.data;
+  }
+
+  void _reportStats(StatsCallback callback, Map<String, dynamic> result) {
+    callback?.call(
+      licenses: result['licenses'],
+      errors: result['errors'],
+      contested: result['contested'],
+    );
   }
 }

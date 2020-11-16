@@ -27,7 +27,7 @@ void main() {
 class LicenseScannerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider<ScanService>(
+    return ChangeNotifierProvider<ScanService>(
       create: (_) => ScanService(),
       child: AppTheme(
         platform: kDebugMode ? platform : null,

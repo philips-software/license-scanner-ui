@@ -7,7 +7,8 @@
  *
  * All Rights Reserved
  */
-import 'dart:io';
+
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,7 @@ import 'package:license_scanner_ui/screens/search/search_screen.dart';
 
 abstract class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    return (Platform.isIOS)
-        ? CupertinoPageRoute(builder: (_) => _screenFor(settings))
-        : MaterialPageRoute(builder: (_) => _screenFor(settings));
+    return MaterialPageRoute(builder: (_) => _screenFor(settings));
   }
 
   static Widget _screenFor(RouteSettings settings) {
@@ -34,6 +33,9 @@ abstract class AppRouter {
         return ScanScreen(future);
       case '/search':
         return SearchScreen();
+      default:
+        log('Not route for "${settings.name}');
+        return null;
     }
   }
 }

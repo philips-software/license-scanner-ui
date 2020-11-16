@@ -10,13 +10,26 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
+
 import '../model/scan_result.dart';
 import 'scanner_client.dart';
 
 /// Service API for accessing scanning results.
-class ScanService {
+class ScanService extends ChangeNotifier {
+  ScanService();
+
+  factory ScanService.of(BuildContext context) =>
+      Provider.of<ScanService>(context, listen: false);
+
   final _searchController = StreamController<List<Uri>>.broadcast();
   final _scannerClient = ScannerClient();
+
+  int licenseCount = 0;
+  int errorCount = 0;
+  int contestCount = 0;
 
   /// Provides search results.
   Stream<List<Uri>> get lastSearched => _searchController.stream;
@@ -27,13 +40,15 @@ class ScanService {
       _scannerClient.search(_searchController.sink, namespace, name);
 
   /// Returns recent scan errors.
-  Future<List<ScanResult>> latest() => _scannerClient.latestScanResults();
+  Future<List<ScanResult>> latest() =>
+      _scannerClient.latestScanResults(_processStats);
 
   /// Returns all scan errors.
-  Future<List<ScanResult>> errors() => _scannerClient.scanErrors();
+  Future<List<ScanResult>> errors() => _scannerClient.scanErrors(_processStats);
 
   /// Returns all contested scans.
-  Future<List<ScanResult>> contested() => _scannerClient.contested();
+  Future<List<ScanResult>> contested() =>
+      _scannerClient.contested(_processStats);
 
   /// Returns the scan result indicated by [uuid].
   Future<ScanResult> getScanResult(String uuid) =>
@@ -56,7 +71,15 @@ class ScanService {
   Future<void> ignore(ScanResult scan, String license, {ignore = true}) =>
       _scannerClient.ignore(scan.uuid, license, ignore: ignore);
 
+  void _processStats({int licenses, int errors, int contested}) {
+    licenseCount = licenses;
+    errorCount = errors;
+    contestCount = contested;
+    notifyListeners();
+  }
+
   void dispose() {
     _searchController.close();
+    super.dispose();
   }
 }

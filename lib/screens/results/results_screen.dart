@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:license_scanner_ui/screens/widgets/icon_badge.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_service.dart';
@@ -48,18 +49,42 @@ class _ResultsScreenState extends State<ResultsScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.error_outline),
-            activeIcon: Icon(Icons.error),
+            icon: _statusIcon(
+              Icons.error_outline,
+              builder: (service) => service.errorCount,
+              color: Colors.red,
+            ),
+            activeIcon: _statusIcon(
+              Icons.error,
+              builder: (service) => service.errorCount,
+              color: Colors.red,
+            ),
             label: 'Errors',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.warning_amber_outlined),
-            activeIcon: Icon(Icons.warning),
+            icon: _statusIcon(
+              Icons.warning_amber_outlined,
+              builder: (service) => service.contestCount,
+              color: Colors.orange,
+            ),
+            activeIcon: _statusIcon(
+              Icons.warning,
+              builder: (service) => service.contestCount,
+              color: Colors.orange,
+            ),
             label: 'Contested',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history_outlined),
-            activeIcon: Icon(Icons.history),
+            icon: _statusIcon(
+              Icons.history_outlined,
+              builder: (service) => service.licenseCount,
+              color: Colors.blue,
+            ),
+            activeIcon: _statusIcon(
+              Icons.history,
+              builder: (service) => service.licenseCount,
+              color: Colors.blue,
+            ),
             label: 'Latest',
           ),
         ],
@@ -85,7 +110,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
   }
 
   Widget _body(BuildContext context, int index) {
-    final service = Provider.of<ScanService>(context, listen: false);
+    final service = ScanService.of(context);
 
     switch (index) {
       case 0:
@@ -95,5 +120,16 @@ class _ResultsScreenState extends State<ResultsScreen> {
       default:
         return ScansView(query: service.latest);
     }
+  }
+
+  Widget _statusIcon(IconData icon,
+      {int Function(ScanService) builder, Color color}) {
+    return Consumer<ScanService>(
+      builder: (_, service, __) => IconBadge(
+        icon,
+        value: builder(service),
+        color: color,
+      ),
+    );
   }
 }
