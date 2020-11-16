@@ -8,9 +8,11 @@
  * All Rights Reserved
  */
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../model/scan_result.dart';
 import '../../screens/widgets/shared.dart';
@@ -49,7 +51,7 @@ class _LocationCardState extends State<LocationCard> {
       child: Column(children: [
         ListTile(
           leading: Icon(Icons.location_pin),
-          title: Text('Location'),
+          title: Text('VCS Location'),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -65,9 +67,8 @@ class _LocationCardState extends State<LocationCard> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.copy),
-                onPressed: () => Clipboard.setData(
-                    new ClipboardData(text: _controller.text)),
+                icon: Icon(Icons.search),
+                onPressed: () => _openWebPage(_controller.text),
               ),
             ],
           ),
@@ -85,5 +86,23 @@ class _LocationCardState extends State<LocationCard> {
         )
       ]),
     );
+  }
+
+  void _openWebPage(String text) async {
+    final url = _webUrlFrom(text).toString();
+    log('Opening $url');
+    if (await canLaunch(url)) {
+      launch(url).catchError((e) => showError(context, e));
+    }
+  }
+
+  Uri _webUrlFrom(String vcsUri) {
+    final at = vcsUri.indexOf('@');
+    if (at > 0) {
+      vcsUri = vcsUri.substring(0, at);
+    }
+    final url = Uri.parse(Uri.decodeFull(vcsUri));
+
+    return Uri(scheme: 'https', host: url.host, path: url.path);
   }
 }

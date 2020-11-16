@@ -46,7 +46,7 @@ class AppTheme extends StatelessWidget {
         background: Container(color: Colors.blue[50]),
       ),
       onGenerateRoute: AppRouter.onGenerateRoute,
-      home: child,
+      initialRoute: '/',
     );
   }
 }
