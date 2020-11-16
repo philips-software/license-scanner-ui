@@ -50,7 +50,7 @@ class _DetectionsCarouselState extends State<DetectionsCarousel> {
                                 widget.onDetectionChange();
                               })),
                     ))
-                .toList(),
+                .toList(growable: false),
           ),
         ),
         if (widget.result.detections.length > 1)

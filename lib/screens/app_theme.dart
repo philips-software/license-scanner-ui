@@ -11,8 +11,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
+
+import 'app_router.dart';
 
 class AppTheme extends StatelessWidget {
   AppTheme({this.platform, this.child});
@@ -21,42 +22,31 @@ class AppTheme extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => PlatformProvider(
-        initialPlatform: platform,
-        builder: (_) => PlatformApp(
-          title: 'License Scanner',
-          builder: (context, widget) => ResponsiveWrapper.builder(
-            widget,
-            maxWidth: 1200,
-            minWidth: 480,
-            defaultScale: true,
-            breakpoints: [
-              ResponsiveBreakpoint.resize(480, name: MOBILE),
-              ResponsiveBreakpoint.autoScale(800, name: TABLET),
-              ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-            ],
-            background: Container(color: Colors.blue[50]),
-          ),
-          material: (_, __) => MaterialAppData(
-            themeMode: ThemeMode.light,
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-              primaryColor: Colors.blue[700],
-              accentColor: Colors.deepOrange,
-              scaffoldBackgroundColor: Colors.blue[50],
-              // buttonColor: Colors.blue[900],
-            ),
-          ),
-          cupertino: (_, __) => CupertinoAppData(
-            localizationsDelegates: [DefaultMaterialLocalizations.delegate],
-            theme: CupertinoThemeData(
-              scaffoldBackgroundColor: Colors.blue[50],
-              primaryColor: Colors.blue[700],
-              primaryContrastingColor: Colors.deepOrange,
-              brightness: Brightness.light,
-            ),
-          ),
-          home: child,
-        ),
-      );
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'License Scanner',
+      themeMode: ThemeMode.light,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue[700],
+        accentColor: Colors.deepOrange,
+        scaffoldBackgroundColor: Colors.blue[50],
+        // buttonColor: Colors.blue[900],
+      ),
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        widget,
+        maxWidth: 1200,
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+          ResponsiveBreakpoint.resize(480, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+        ],
+        background: Container(color: Colors.blue[50]),
+      ),
+      onGenerateRoute: AppRouter.onGenerateRoute,
+      home: child,
+    );
+  }
 }

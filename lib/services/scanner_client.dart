@@ -108,7 +108,7 @@ class ScannerClient {
 
   Future<void> ignore(String scanId, String license,
       {bool ignore = true}) async {
-    final path = 'scans/$scanId/ignore/${license}?revert=${!ignore}';
+    final path = 'scans/$scanId/ignore/$license?revert=${!ignore}';
     await _post(baseUrl.resolve(path));
   }
 

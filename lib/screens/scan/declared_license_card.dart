@@ -9,11 +9,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../screens/widgets/shared.dart';
 import '../../model/scan_result.dart';
+import '../../screens/widgets/shared.dart';
 import '../../services/scan_service.dart';
 
 class DeclaredLicenseCard extends StatefulWidget {
@@ -44,50 +43,47 @@ class _DeclaredLicenseCardState extends State<DeclaredLicenseCard> {
   Widget build(BuildContext context) {
     final ScanService service = Provider.of<ScanService>(context);
 
-    return Material(
-      type: MaterialType.transparency,
-      child: Card(
-        child: Column(children: [
-          ListTile(
-            leading: Icon(Icons.verified),
-            title: Text('Declared license'),
+    return Card(
+      child: Column(children: [
+        ListTile(
+          leading: Icon(Icons.verified),
+          title: Text('Declared license'),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            controller: _controller,
+            autofocus: true,
           ),
+        ),
+        if (widget.scan.isContested)
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: PlatformTextField(
-              controller: _controller,
-              autofocus: true,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.orange),
+              Text('License was contested',
+                  style: TextStyle(color: Colors.orange)),
+            ]),
           ),
-          if (widget.scan.isContested)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Icon(Icons.warning_amber_rounded, color: Colors.orange),
-                Text('License was contested',
-                    style: TextStyle(color: Colors.orange)),
-              ]),
-            ),
-          if (widget.scan.isConfirmed)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                Icon(Icons.thumb_up_outlined, color: Colors.blue),
-                Text('License was confirmed',
-                    style: TextStyle(color: Colors.blue)),
-              ]),
-            ),
-          ButtonBar(children: [
-            PlatformButton(
-              child: PlatformText('Confirm'),
-              onPressed: () => service
-                  .confirm(widget.scan, _controller.text)
-                  .whenComplete(() => Navigator.of(context).pop())
-                  .catchError((e) => showError(context, e.toString())),
-            ),
-          ])
-        ]),
-      ),
+        if (widget.scan.isConfirmed)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              Icon(Icons.thumb_up_outlined, color: Colors.blue),
+              Text('License was confirmed',
+                  style: TextStyle(color: Colors.blue)),
+            ]),
+          ),
+        ButtonBar(children: [
+          TextButton(
+            child: Text('CONFIRM'),
+            onPressed: () => service
+                .confirm(widget.scan, _controller.text)
+                .whenComplete(() => Navigator.pop(context))
+                .catchError((e) => showError(context, e.toString())),
+          ),
+        ])
+      ]),
     );
   }
 }

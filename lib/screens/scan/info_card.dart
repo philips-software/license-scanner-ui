@@ -9,7 +9,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/scan_result.dart';
@@ -27,7 +26,7 @@ class InfoCard extends StatelessWidget {
 
     return Card(
       child: ListTile(
-        leading: Icon(PlatformIcons(context).info),
+        leading: Icon(Icons.info),
         title: Text(scan.purl.toString(), style: TextStyle(fontSize: 20)),
         subtitle: Text('Scanned: ${dateFormat.format(scan.timestamp)}'),
       ),

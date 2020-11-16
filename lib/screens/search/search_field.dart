@@ -9,7 +9,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class SearchField extends StatefulWidget {
   SearchField({this.hint, this.ignoreEmpty = false, this.onChange});
@@ -27,24 +26,16 @@ class _SearchFieldState extends State<SearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformTextField(
+    return TextField(
       controller: _controller,
       autofocus: true,
-      material: (_, __) => MaterialTextFieldData(
-        decoration: InputDecoration(
-          hintText: widget.hint,
-          suffixIcon: IconButton(
-            onPressed: () => _controller.clear(),
-            icon: Icon(PlatformIcons(context).clear),
-          ),
+      decoration: InputDecoration(
+        hintText: widget.hint,
+        suffixIcon: IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () => _controller.clear(),
         ),
       ),
-      cupertino: (_, __) => CupertinoTextFieldData(
-          placeholder: widget.hint,
-          suffix: PlatformIconButton(
-            onPressed: () => _controller.clear(),
-            icon: Icon(PlatformIcons(context).clear),
-          )),
       onChanged: (input) {
         if (!widget.ignoreEmpty || input.isNotEmpty) {
           widget.onChange(input);

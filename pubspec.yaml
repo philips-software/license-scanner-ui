@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   intl: ^0.16.1
   cupertino_icons: ^1.0.0
-  flutter_platform_widgets: ^0.70.2
   responsive_framework: ^0.0.8
   provider: ^4.3.2
   http: ^0.12.2

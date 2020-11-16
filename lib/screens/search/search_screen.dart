@@ -9,7 +9,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_service.dart';
@@ -22,8 +21,8 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _service = Provider.of<ScanService>(context, listen: false);
 
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: Text('Search'),
       ),
       body: SafeArea(

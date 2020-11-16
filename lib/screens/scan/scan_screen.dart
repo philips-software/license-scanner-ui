@@ -9,7 +9,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '../../model/scan_result.dart';
 import '../widgets/snapshot_view.dart';
@@ -20,15 +19,17 @@ import 'info_card.dart';
 import 'location_card.dart';
 
 class ScanScreen extends StatelessWidget {
+  ScanScreen(this.future);
+
+  final Future<ScanResult> future;
+
   @override
   Widget build(BuildContext context) {
-    final ScanScreenParams params = ModalRoute.of(context).settings.arguments;
-
-    return PlatformScaffold(
-      appBar: PlatformAppBar(title: Text('Scan result')),
+    return Scaffold(
+      appBar: AppBar(title: Text('Scan result')),
       body: SafeArea(
         child: FutureBuilder(
-          future: params.future,
+          future: future,
           builder: (context, snapshot) {
             return SnapshotView(
               snapshot,

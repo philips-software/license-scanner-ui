@@ -9,7 +9,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/scan_result.dart';
@@ -65,8 +64,13 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
             ),
             ButtonBar(
               children: [
-                PlatformButton(
-                  child: PlatformText('Confirm'),
+                TextButton(
+                  child: Text('CLEAR ALL'),
+                  onPressed: () => widget.scan.detections.forEach(
+                      (det) => service.ignore(widget.scan, det.license)),
+                ),
+                TextButton(
+                  child: Text('CONFIRM'),
                   onPressed: license.isEmpty
                       ? null
                       : () {
@@ -74,7 +78,7 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
                               .confirm(widget.scan, license)
                               .then((_) => Navigator.pop(context));
                         },
-                )
+                ),
               ],
             )
           ],

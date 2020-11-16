@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+
 import '../../model/detection.dart';
 
 class DetectionCard extends StatelessWidget {
@@ -21,6 +22,7 @@ class DetectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Card(
+        key: ValueKey(this.detection.license),
         child: Column(
           children: [
             Text(

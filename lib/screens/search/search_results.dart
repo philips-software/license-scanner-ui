@@ -9,11 +9,9 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/scan_service.dart';
-import '../scan/scan_screen.dart';
 
 class SearchResults extends StatelessWidget {
   SearchResults(this.packages);
@@ -33,14 +31,8 @@ class SearchResults extends StatelessWidget {
               leading: Icon(Icons.source),
               title: Text(purl.toString()),
               onTap: () {
-                final params =
-                    ScanScreenParams(service.getPackageScanResult(purl));
-                Navigator.push(
-                    context,
-                    platformPageRoute(
-                        context: context,
-                        builder: (_) => ScanScreen(),
-                        settings: RouteSettings(arguments: params)));
+                Navigator.pushNamed(context, '/scan',
+                    arguments: service.getPackageScanResult(purl));
               },
             ),
           );
