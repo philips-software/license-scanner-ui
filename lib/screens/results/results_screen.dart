@@ -127,9 +127,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Consumer<ScanService>(
       builder: (_, service, __) => IconBadge(
         icon,
-        value: builder(service),
+        value: _toLabel(builder(service)),
         color: color,
       ),
     );
   }
+
+  String _toLabel(int value) => (value > 0) ? value.toString() : null;
 }

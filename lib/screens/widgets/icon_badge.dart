@@ -14,7 +14,7 @@ class IconBadge extends StatelessWidget {
   IconBadge(this.icon, {this.value, this.color = Colors.red});
 
   final IconData icon;
-  final int value;
+  final Object value;
   final Color color;
 
   @override
@@ -23,13 +23,13 @@ class IconBadge extends StatelessWidget {
       child: Icon(icon),
       badgeContent: Text(
         value.toString(),
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.white, fontSize: 9),
       ),
       position: BadgePosition.bottomStart(bottom: 10, start: 20),
       shape: BadgeShape.square,
       borderRadius: BorderRadius.circular(10),
       badgeColor: color,
-      showBadge: value > 0,
+      showBadge: value != null,
     );
   }
 }
