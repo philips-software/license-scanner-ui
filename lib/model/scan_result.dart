@@ -21,8 +21,7 @@ class ScanResult {
   String location;
   String error;
   List<Detection> detections;
-
-  bool isContested = false;
+  String contesting;
   bool isConfirmed = false;
 
   factory ScanResult.fromMap(Map<String, dynamic> map) {
@@ -35,7 +34,7 @@ class ScanResult {
     result.location = map['location'];
     result.error = map['error'];
     result.isConfirmed = map['confirmed'];
-    result.isContested = map['contested'];
+    result.contesting = map['contesting'];
     final List<dynamic> detections = map['detections'];
     if (detections != null) {
       result.detections =

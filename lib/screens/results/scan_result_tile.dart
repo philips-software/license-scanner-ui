@@ -65,7 +65,7 @@ class ScanResultTile extends StatelessWidget {
     if (scan.isConfirmed) {
       return Icon(Icons.verified, color: Colors.green);
     }
-    if (scan.isContested) {
+    if (scan.contesting != null) {
       return Icon(Icons.help, color: Colors.orange);
     }
     return Icon(Icons.check_circle, color: Colors.blue);

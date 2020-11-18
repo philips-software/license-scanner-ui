@@ -56,23 +56,32 @@ class _DeclaredLicenseCardState extends State<DeclaredLicenseCard> {
             autofocus: true,
           ),
         ),
-        if (widget.scan.isContested)
+        if (widget.scan.contesting != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.orange),
-              Text('License was contested',
-                  style: TextStyle(color: Colors.orange)),
-            ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.warning_amber_rounded, color: Colors.orange),
+                Text(
+                    widget.scan.contesting.isNotEmpty
+                        ? 'Contested by: ${widget.scan.contesting}'
+                        : 'License was contested',
+                    style: TextStyle(color: Colors.orange)),
+              ],
+            ),
           ),
         if (widget.scan.isConfirmed)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Icon(Icons.thumb_up_outlined, color: Colors.blue),
-              Text('License was confirmed',
-                  style: TextStyle(color: Colors.blue)),
-            ]),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(Icons.thumb_up_outlined, color: Colors.blue),
+                Text('License was confirmed',
+                    style: TextStyle(color: Colors.blue)),
+              ],
+            ),
           ),
         ButtonBar(children: [
           TextButton(
