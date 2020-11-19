@@ -12,6 +12,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:license_scanner_ui/model/file_fragment.dart';
 import 'package:provider/provider.dart';
 
 import '../model/scan_result.dart';
@@ -70,6 +71,12 @@ class ScanService extends ChangeNotifier {
   /// Marks the detection for [license] of [scan] as false-positive.
   Future<void> ignore(ScanResult scan, String license, {ignore = true}) =>
       _scannerClient.ignore(scan.uuid, license, ignore: ignore);
+
+  /// Gets a sample of the the detection source for a [license] of a [scan]
+  /// with a [margin] number of lines.
+  Future<FileFragment> detectionSource(
+          ScanResult scan, String license, int margin) =>
+      _scannerClient.sourceFor(scan.uuid, license, margin: margin);
 
   void _processStats({int licenses, int errors, int contested}) {
     licenseCount = licenses;

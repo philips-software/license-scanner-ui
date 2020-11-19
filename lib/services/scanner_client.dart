@@ -14,8 +14,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:license_scanner_ui/model/file_fragment.dart';
 
 import '../model/scan_result.dart';
+import 'model_mapper.dart';
 
 typedef StatsCallback = void Function(
     {int licenses, int errors, int contested});
@@ -36,7 +38,7 @@ class ScannerClient {
           'name': Uri.encodeComponent(name),
         },
       ));
-      sink.add(ScanResult.fromPurlList(json['results']));
+      sink.add(ScanResultMapper.fromPurlList(json['results']));
     });
   }
 
@@ -53,7 +55,7 @@ class ScannerClient {
   Future<List<ScanResult>> latestScanResults([StatsCallback callback]) async {
     final json = await _get<Map<String, dynamic>>(baseUrl.resolve('scans'));
     _reportStats(callback, json);
-    return ScanResult.fromList(json['results']);
+    return ScanResultMapper.fromList(json['results']);
   }
 
   Future<List<ScanResult>> scanErrors([StatsCallback callback]) async {
@@ -62,7 +64,7 @@ class ScannerClient {
       queryParameters: {'q': 'errors'},
     ));
     _reportStats(callback, json);
-    return ScanResult.fromList(json['results']);
+    return ScanResultMapper.fromList(json['results']);
   }
 
   Future<List<ScanResult>> contested([StatsCallback callback]) async {
@@ -71,20 +73,19 @@ class ScannerClient {
       queryParameters: {'q': 'contested'},
     ));
     _reportStats(callback, json);
-    return ScanResult.fromList(json['results']);
+    return ScanResultMapper.fromList(json['results']);
   }
 
   Future<ScanResult> scanResultByUuid(String uuid) async {
     final json =
         await _get<Map<String, dynamic>>(baseUrl.resolve('scans/$uuid'));
-    return ScanResult.fromMap(json);
+    return ScanResultMapper.fromMap(json);
   }
 
   Future<ScanResult> scanResultByPackage(Uri purl) async {
     final path = 'packages/${_encode(purl)}';
-    log('requesting: $path');
     final json = await _get<Map<String, dynamic>>(baseUrl.resolve(path));
-    return ScanResult.fromMap(json);
+    return ScanResultMapper.fromMap(json);
   }
 
   Future<void> rescan(Uri purl, String location) async {
@@ -108,6 +109,15 @@ class ScannerClient {
       {bool ignore = true}) async {
     final path = 'scans/$scanId/ignore/$license?revert=${!ignore}';
     await _post(baseUrl.resolve(path));
+  }
+
+  Future<FileFragment> sourceFor(String scanId, String license,
+      {int margin = 5}) async {
+    final path = 'scans/$scanId/source/$license?margin=$margin';
+    final json = await _get(baseUrl.resolve(path));
+    //TODO Just for debugging
+    log(json.toString());
+    return FileFragmentMapper.fromMap(json);
   }
 
   String _encode(Uri purl) =>

@@ -8,20 +8,13 @@
  * All Rights Reserved
  */
 
-class Detection {
-  Detection({
-    this.license,
-    this.file,
-    this.startLine,
-    this.endLine,
-    this.confirmations,
-    this.ignored,
-  });
+class FileFragment {
+  FileFragment(
+      {this.filename, this.offset, this.startLine, this.endLine, this.lines});
 
-  final String license;
-  final String file;
+  final String filename;
+  final int offset;
   final int startLine;
   final int endLine;
-  final int confirmations;
-  bool ignored;
+  final List<String> lines;
 }

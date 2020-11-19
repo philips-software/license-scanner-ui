@@ -41,6 +41,7 @@ class _DetectionsCarouselState extends State<DetectionsCarousel> {
             controller: controller,
             children: widget.result.detections
                 .map((detection) => DetectionCard(
+                      widget.result,
                       detection,
                       onIgnore: (_) => service
                           .ignore(widget.result, detection.license,

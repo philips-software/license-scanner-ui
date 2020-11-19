@@ -9,12 +9,14 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:license_scanner_ui/model/scan_result.dart';
 
 import '../../model/detection.dart';
 
 class DetectionCard extends StatelessWidget {
-  DetectionCard(this.detection, {this.onIgnore});
+  DetectionCard(this.scan, this.detection, {this.onIgnore});
 
+  final ScanResult scan;
   final Detection detection;
   final Function(Detection detection) onIgnore;
 
@@ -40,6 +42,11 @@ class DetectionCard extends StatelessWidget {
               title: Text((detection.startLine != detection.endLine)
                   ? 'line ${detection.startLine} - ${detection.endLine} (${1 + detection.endLine - detection.startLine} lines)'
                   : 'line ${detection.startLine}'),
+              trailing: IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () => Navigator.pushNamed(context, '/source',
+                    arguments: {'scan': scan, 'license': detection.license}),
+              ),
               dense: true,
             ),
             ListTile(

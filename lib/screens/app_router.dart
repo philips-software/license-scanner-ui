@@ -17,6 +17,7 @@ import 'package:license_scanner_ui/model/scan_result.dart';
 import 'package:license_scanner_ui/screens/results/results_screen.dart';
 import 'package:license_scanner_ui/screens/scan/scan_screen.dart';
 import 'package:license_scanner_ui/screens/search/search_screen.dart';
+import 'package:license_scanner_ui/screens/source/source_screen.dart';
 
 abstract class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -33,6 +34,11 @@ abstract class AppRouter {
         return ScanScreen(future);
       case '/search':
         return SearchScreen();
+      case '/source':
+        final args = settings.arguments as Map<String, dynamic>;
+        final scan = args['scan'] as ScanResult;
+        final license = args['license'] as String;
+        return SourceScreen(scan, license);
       default:
         log('Not route for "${settings.name}');
         return null;
