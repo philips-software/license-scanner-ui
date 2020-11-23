@@ -11,6 +11,6 @@
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-void showError(BuildContext context, String message) {
-  Toast.show(message, context, duration: 10);
+void showError(BuildContext context, Object error) {
+  Toast.show(error.toString(), context, duration: 10);
 }

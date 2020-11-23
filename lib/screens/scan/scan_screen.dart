@@ -12,11 +12,11 @@ import 'package:flutter/material.dart';
 
 import '../../model/scan_result.dart';
 import '../widgets/snapshot_view.dart';
-import 'declared_license_card.dart';
 import 'detected_license_card.dart';
 import 'error_card.dart';
 import 'info_card.dart';
 import 'location_card.dart';
+import 'manual_license_card.dart';
 
 class ScanScreen extends StatelessWidget {
   ScanScreen(this.future);
@@ -40,7 +40,7 @@ class ScanScreen extends StatelessWidget {
                     InfoCard(scan),
                     if (scan.error != null) ErrorCard(scan),
                     if (scan.detections.isNotEmpty) DetectedLicenseCard(scan),
-                    DeclaredLicenseCard(scan),
+                    ManualLicenseCard(scan),
                     LocationCard(scan),
                   ],
                 ),

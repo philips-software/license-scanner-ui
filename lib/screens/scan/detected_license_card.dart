@@ -9,6 +9,8 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:license_scanner_ui/model/detection.dart';
+import 'package:license_scanner_ui/screens/widgets/shared.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/scan_result.dart';
@@ -30,7 +32,7 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
   @override
   void initState() {
     super.initState();
-    license = _detectedLicense();
+    _updateLicense();
   }
 
   @override
@@ -51,7 +53,7 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
               child: DetectionsCarousel(
                 widget.scan,
                 onDetectionChange: () => setState(() {
-                  license = _detectedLicense();
+                  _updateLicense();
                 }),
               ),
             ),
@@ -65,9 +67,12 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
             ButtonBar(
               children: [
                 TextButton(
-                  child: Text('IGNORE'),
-                  onPressed: () => widget.scan.detections.forEach(
-                      (det) => service.ignore(widget.scan, det.license)),
+                  child: Text('CLEAR ALL'),
+                  onPressed: () => Future.forEach<Detection>(
+                          widget.scan.detections.where((det) => !det.ignored),
+                          (det) => service.ignore(widget.scan, det))
+                      .whenComplete(() => setState(() => _updateLicense()))
+                      .catchError((error) => showError(context, error)),
                 ),
                 TextButton(
                   child: Text('CONFIRM'),
@@ -87,10 +92,10 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
     );
   }
 
-  String _detectedLicense() {
+  void _updateLicense() {
     final licenses =
         widget.scan.detections.where((d) => !d.ignored).map((d) => d.license);
-    return (licenses.length == 1)
+    license = (licenses.length == 1)
         ? licenses.first
         : licenses
             .map((lic) => _isCombinedExpression(lic) ? '($lic)' : lic)

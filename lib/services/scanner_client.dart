@@ -115,8 +115,6 @@ class ScannerClient {
       {int margin = 5}) async {
     final path = 'scans/$scanId/source/$license?margin=$margin';
     final json = await _get(baseUrl.resolve(path));
-    //TODO Just for debugging
-    log(json.toString());
     return FileFragmentMapper.fromMap(json);
   }
 

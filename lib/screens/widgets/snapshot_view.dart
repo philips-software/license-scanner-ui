@@ -10,10 +10,11 @@
 import 'package:flutter/material.dart';
 
 class SnapshotView<T> extends StatelessWidget {
-  SnapshotView(this.snapshot, {this.builder});
+  SnapshotView(this.snapshot, {this.builder, this.message});
 
   final AsyncSnapshot<T> snapshot;
   final Widget Function(T) builder;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,23 @@ class SnapshotView<T> extends StatelessWidget {
       return ErrorWidget(snapshot.error);
     }
     if (!snapshot.hasData) {
-      return Center(child: CircularProgressIndicator());
+      return Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+            if (message != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  message,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+          ],
+        ),
+      );
     }
     return builder(snapshot.data);
   }

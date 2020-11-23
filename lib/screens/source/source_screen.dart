@@ -14,11 +14,20 @@ import 'package:license_scanner_ui/model/scan_result.dart';
 import 'package:license_scanner_ui/screens/widgets/snapshot_view.dart';
 import 'package:license_scanner_ui/services/scan_service.dart';
 
-class SourceScreen extends StatelessWidget {
+import 'fragment_view.dart';
+
+class SourceScreen extends StatefulWidget {
   SourceScreen(this.scan, this.license);
 
   final ScanResult scan;
   final String license;
+
+  @override
+  _SourceScreenState createState() => _SourceScreenState();
+}
+
+class _SourceScreenState extends State<SourceScreen> {
+  bool expanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,32 +36,22 @@ class SourceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detection source'),
+        actions: [
+          IconButton(
+            icon: Icon(expanded ? Icons.compress : Icons.expand),
+            onPressed: () => setState(() {
+              expanded = !expanded;
+            }),
+          )
+        ],
       ),
       body: FutureBuilder<FileFragment>(
-        future: service.detectionSource(scan, license, 5),
+        future: service.detectionSource(
+            widget.scan, widget.license, expanded ? 10000 : 5),
         builder: (context, snapshot) => SnapshotView<FileFragment>(
           snapshot,
-          builder: (fragment) => ListView.builder(
-            itemCount: fragment.lines.length,
-            itemBuilder: (context, index) => Row(
-              children: [
-                SizedBox(
-                  width: 40,
-                  child: Text('${fragment.offset + index}'),
-                ),
-                Expanded(
-                  child: Text(
-                    fragment.lines[index],
-                    style: TextStyle(
-                        backgroundColor: (index >= fragment.startLine &&
-                                index < fragment.endLine)
-                            ? Colors.yellow
-                            : null),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          message: 'Downloading package source files...',
+          builder: (fragment) => FragmentView(fragment),
         ),
       ),
     );

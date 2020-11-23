@@ -9,28 +9,26 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../model/scan_result.dart';
 import '../../screens/widgets/shared.dart';
 import '../../services/scan_service.dart';
 
-class DeclaredLicenseCard extends StatefulWidget {
-  DeclaredLicenseCard(this.scan);
+class ManualLicenseCard extends StatefulWidget {
+  ManualLicenseCard(this.scan);
 
   final ScanResult scan;
 
   @override
-  _DeclaredLicenseCardState createState() => _DeclaredLicenseCardState();
+  _ManualLicenseCardState createState() => _ManualLicenseCardState();
 }
 
-class _DeclaredLicenseCardState extends State<DeclaredLicenseCard> {
+class _ManualLicenseCardState extends State<ManualLicenseCard> {
   final _controller = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _controller.text = widget.scan.license;
   }
 
   @override
@@ -41,19 +39,18 @@ class _DeclaredLicenseCardState extends State<DeclaredLicenseCard> {
 
   @override
   Widget build(BuildContext context) {
-    final ScanService service = Provider.of<ScanService>(context);
-
     return Card(
       child: Column(children: [
         ListTile(
           leading: Icon(Icons.verified),
-          title: Text('Declared license'),
+          title: Text('Manual license'),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: _controller,
             autofocus: true,
+            onChanged: (_) => setState(() => null),
           ),
         ),
         if (widget.scan.contesting != null)
@@ -78,21 +75,34 @@ class _DeclaredLicenseCardState extends State<DeclaredLicenseCard> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Icon(Icons.thumb_up_outlined, color: Colors.blue),
-                Text('License was confirmed',
+                Text('Confirmed license: ${widget.scan.license}',
                     style: TextStyle(color: Colors.blue)),
               ],
             ),
           ),
         ButtonBar(children: [
+          if (widget.scan.contesting?.isNotEmpty ?? false)
+            TextButton(
+              child: Text('ACCEPT'),
+              onPressed: () => _confirmLicense(context, widget.scan.contesting),
+            ),
           TextButton(
             child: Text('CONFIRM'),
-            onPressed: () => service
-                .confirm(widget.scan, _controller.text)
-                .whenComplete(() => Navigator.pop(context))
-                .catchError((e) => showError(context, e.toString())),
+            onPressed: (_controller.text != widget.scan.license)
+                ? () => _confirmLicense(context, _controller.text)
+                : null,
           ),
         ])
       ]),
     );
+  }
+
+  Future<void> _confirmLicense(BuildContext context, String license) {
+    final service = ScanService.of(context);
+
+    return service
+        .confirm(widget.scan, license)
+        .whenComplete(() => Navigator.pop(context))
+        .catchError((e) => showError(context, e.toString()));
   }
 }

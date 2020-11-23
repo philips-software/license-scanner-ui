@@ -12,6 +12,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:license_scanner_ui/model/detection.dart';
 import 'package:license_scanner_ui/model/file_fragment.dart';
 import 'package:provider/provider.dart';
 
@@ -65,12 +66,16 @@ class ScanService extends ChangeNotifier {
 
   /// Override the [license] for the [scan].
   /// If no license is provided, the existing license value is confirmed.
-  Future<void> confirm(ScanResult scan, String license) =>
-      _scannerClient.confirm(scan.uuid, license);
+  Future<void> confirm(ScanResult scan, String license) {
+    scan.license = license;
+    return _scannerClient.confirm(scan.uuid, license);
+  }
 
-  /// Marks the detection for [license] of [scan] as false-positive.
-  Future<void> ignore(ScanResult scan, String license, {ignore = true}) =>
-      _scannerClient.ignore(scan.uuid, license, ignore: ignore);
+  /// Marks the detection for [detection] of [scan] as false-positive.
+  Future<void> ignore(ScanResult scan, Detection detection, {ignore = true}) {
+    detection.ignored = ignore;
+    return _scannerClient.ignore(scan.uuid, detection.license, ignore: ignore);
+  }
 
   /// Gets a sample of the the detection source for a [license] of a [scan]
   /// with a [margin] number of lines.

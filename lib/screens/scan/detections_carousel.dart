@@ -44,12 +44,13 @@ class _DetectionsCarouselState extends State<DetectionsCarousel> {
                       widget.result,
                       detection,
                       onIgnore: (_) => service
-                          .ignore(widget.result, detection.license,
+                          .ignore(widget.result, detection,
                               ignore: !detection.ignored)
-                          .then((_) => setState(() {
-                                detection.ignored = !detection.ignored;
-                                widget.onDetectionChange();
-                              })),
+                          .then(
+                            (_) => setState(() {
+                              widget.onDetectionChange();
+                            }),
+                          ),
                     ))
                 .toList(growable: false),
           ),
