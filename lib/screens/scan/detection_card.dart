@@ -66,7 +66,9 @@ class DetectionCard extends StatelessWidget {
           ],
         ),
         elevation: 10,
-        color: Colors.grey[50],
+        color: Theme.of(context).brightness == Brightness.light
+            ? Colors.grey[50]
+            : Colors.blueGrey[900],
       ),
     );
   }

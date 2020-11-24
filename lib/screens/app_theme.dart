@@ -25,7 +25,13 @@ class AppTheme extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'License Scanner',
-      themeMode: ThemeMode.light,
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.blue,
+        accentColor: Colors.lightBlue,
+        indicatorColor: Colors.blueAccent,
+        toggleableActiveColor: Colors.blueAccent,
+      ),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue[700],
