@@ -32,7 +32,9 @@ class FragmentView extends StatelessWidget {
               style: TextStyle(
                   backgroundColor:
                       (index >= fragment.startLine && index < fragment.endLine)
-                          ? Colors.yellow
+                          ? Theme.of(context).brightness == Brightness.light
+                              ? Colors.yellow
+                              : Colors.blueGrey
                           : null),
             ),
           ),
