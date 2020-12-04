@@ -74,16 +74,6 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
                       .whenComplete(() => setState(() => _updateLicense()))
                       .catchError((error) => showError(context, error)),
                 ),
-                TextButton(
-                  child: Text('CONFIRM'),
-                  onPressed: license.isEmpty
-                      ? null
-                      : () {
-                          service
-                              .confirm(widget.scan, license)
-                              .then((_) => Navigator.pop(context));
-                        },
-                ),
               ],
             )
           ],

@@ -43,7 +43,7 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
       child: Column(children: [
         ListTile(
           leading: Icon(Icons.verified),
-          title: Text('Manual license'),
+          title: Text('Manual license override'),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
@@ -53,21 +53,6 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
             onChanged: (_) => setState(() => null),
           ),
         ),
-        if (widget.scan.contesting != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Icon(Icons.warning_amber_rounded, color: Colors.orange),
-                Text(
-                    widget.scan.contesting.isNotEmpty
-                        ? 'Contested by: ${widget.scan.contesting}'
-                        : 'License was contested',
-                    style: TextStyle(color: Colors.orange)),
-              ],
-            ),
-          ),
         if (widget.scan.isConfirmed)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -81,11 +66,6 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
             ),
           ),
         ButtonBar(children: [
-          if (widget.scan.contesting?.isNotEmpty ?? false)
-            TextButton(
-              child: Text('ACCEPT'),
-              onPressed: () => _confirmLicense(context, widget.scan.contesting),
-            ),
           TextButton(
             child: Text('CONFIRM'),
             onPressed: (_controller.text != widget.scan.license)

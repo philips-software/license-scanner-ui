@@ -13,8 +13,8 @@ import 'package:license_scanner_ui/model/scan_result.dart';
 
 import '../../model/detection.dart';
 
-class DetectionCard extends StatelessWidget {
-  DetectionCard(this.scan, this.detection, {this.onIgnore});
+class DetectionView extends StatelessWidget {
+  DetectionView(this.scan, this.detection, {this.onIgnore});
 
   final ScanResult scan;
   final Detection detection;

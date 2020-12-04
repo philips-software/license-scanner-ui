@@ -14,7 +14,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../model/scan_result.dart';
 import '../../services/scan_service.dart';
-import 'detection_card.dart';
+import 'detection_view.dart';
 
 class DetectionsCarousel extends StatefulWidget {
   DetectionsCarousel(this.result, {this.onDetectionChange});
@@ -40,7 +40,7 @@ class _DetectionsCarouselState extends State<DetectionsCarousel> {
           child: PageView(
             controller: controller,
             children: widget.result.detections
-                .map((detection) => DetectionCard(
+                .map((detection) => DetectionView(
                       widget.result,
                       detection,
                       onIgnore: (_) => service

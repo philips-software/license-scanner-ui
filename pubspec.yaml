@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.16.1
-  cupertino_icons: ^1.0.0
-  responsive_framework: ^0.0.11
+  cupertino_icons: ^1.0.1+1
+  responsive_framework: ^0.0.14
   smooth_page_indicator: ^0.2.0
   provider: ^4.3.2+2
   http: ^0.12.2

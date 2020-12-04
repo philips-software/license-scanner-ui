@@ -23,7 +23,7 @@ typedef StatsCallback = void Function(
     {int licenses, int errors, int contested});
 
 /// License Scanner service client.
-/// See https://github.com/philips-labs/license-scanner
+/// See https://github.com/philips-internal/license-scanner
 class ScannerClient {
   final baseUrl = Uri.http(kIsWeb && !kDebugMode ? '' : 'localhost:8080', '/');
   final _dio = Dio();

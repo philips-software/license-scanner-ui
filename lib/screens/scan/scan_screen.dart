@@ -9,6 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:license_scanner_ui/screens/scan/contest_card.dart';
 
 import '../../model/scan_result.dart';
 import '../widgets/snapshot_view.dart';
@@ -31,7 +32,7 @@ class ScanScreen extends StatelessWidget {
         child: FutureBuilder(
           future: future,
           builder: (context, snapshot) {
-            return SnapshotView(
+            return SnapshotView<ScanResult>(
               snapshot,
               builder: (scan) => SingleChildScrollView(
                 child: Column(
@@ -40,6 +41,7 @@ class ScanScreen extends StatelessWidget {
                     InfoCard(scan),
                     if (scan.error != null) ErrorCard(scan),
                     if (scan.detections.isNotEmpty) DetectedLicenseCard(scan),
+                    if (scan.contesting != null) ContestCard(scan),
                     ManualLicenseCard(scan),
                     LocationCard(scan),
                   ],
