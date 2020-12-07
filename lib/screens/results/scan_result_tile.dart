@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 import '../../model/scan_result.dart';
 
 class ScanResultTile extends StatelessWidget {
-  static final dateFormat = DateFormat.yMMMMEEEEd().add_Hm();
+  static final dateFormat = DateFormat.yMMMMEEEEd();
 
   ScanResultTile(this.scan, {this.onTap});
 

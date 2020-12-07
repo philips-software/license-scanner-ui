@@ -42,7 +42,7 @@ extension ScanResultMapper on ScanResult {
     final result = ScanResult(
       uuid: map['id'],
       purl: Uri.parse(map['purl']),
-      timestamp: DateTime.parse(map['timestamp']),
+      timestamp: DateTime.parse(map['timestamp']).toLocal(),
     );
     result.license = map['license'];
     result.location = map['location'];
