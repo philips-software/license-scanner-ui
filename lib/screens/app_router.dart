@@ -37,8 +37,9 @@ abstract class AppRouter {
       case '/source':
         final args = settings.arguments as Map<String, dynamic>;
         final scan = args['scan'] as ScanResult;
+        final filename = args['filename'] as String;
         final license = args['license'] as String;
-        return SourceScreen(scan, license);
+        return SourceScreen(scan, filename, license);
       default:
         log('Not route for "${settings.name}');
         return null;

@@ -17,9 +17,10 @@ import 'package:license_scanner_ui/services/scan_service.dart';
 import 'fragment_view.dart';
 
 class SourceScreen extends StatefulWidget {
-  SourceScreen(this.scan, this.license);
+  SourceScreen(this.scan, this.filename, this.license);
 
   final ScanResult scan;
+  final String filename;
   final String license;
 
   @override
@@ -45,14 +46,29 @@ class _SourceScreenState extends State<SourceScreen> {
           )
         ],
       ),
-      body: FutureBuilder<FileFragment>(
-        future: service.detectionSource(
-            widget.scan, widget.license, expanded ? 10000 : 5),
-        builder: (context, snapshot) => SnapshotView<FileFragment>(
-          snapshot,
-          message: 'Downloading package source files...',
-          builder: (fragment) => FragmentView(fragment),
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.filename,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline6,
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<FileFragment>(
+              future: service.detectionSource(
+                  widget.scan, widget.license, expanded ? 10000 : 5),
+              builder: (context, snapshot) => SnapshotView<FileFragment>(
+                snapshot,
+                message: 'Downloading package source files...',
+                builder: (fragment) => FragmentView(fragment),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -24,14 +24,20 @@ class ContestCard extends StatelessWidget {
     return Card(
       child: Column(children: [
         ListTile(
-          leading: Icon(Icons.warning),
-          title: Text('Contesting license'),
+          leading: Icon(Icons.warning, color: Colors.orange),
+          title: Text(
+            'Contesting license',
+            style: TextStyle(color: Colors.orange),
+          ),
         ),
         Text(
           scan.contesting.isNotEmpty
               ? scan.contesting
               : 'License was contested',
-          style: TextStyle(color: Colors.orange),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(color: Colors.orange),
         ),
         if (scan.contesting.isNotEmpty)
           ButtonBar(children: [

@@ -18,28 +18,35 @@ class FragmentView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var background = Theme.of(context).cardColor;
+
     return ListView.builder(
       itemCount: fragment.lines.length,
-      itemBuilder: (context, index) => Row(
-        children: [
-          SizedBox(
-            width: 40,
-            child: Text('${fragment.offset + index}'),
-          ),
-          Expanded(
-            child: Text(
-              fragment.lines[index],
-              style: TextStyle(
-                  backgroundColor:
-                      (index >= fragment.startLine && index < fragment.endLine)
+      itemBuilder: (context, index) {
+        return Container(
+          color: background,
+          child: Row(
+            children: [
+              SizedBox(
+                width: 40,
+                child: Text(' ${fragment.offset + index}'),
+              ),
+              Expanded(
+                child: Text(
+                  fragment.lines[index],
+                  style: TextStyle(
+                      backgroundColor: (index >= fragment.startLine &&
+                              index < fragment.endLine)
                           ? Theme.of(context).brightness == Brightness.light
                               ? Colors.yellow
                               : Colors.blueGrey
                           : null),
-            ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

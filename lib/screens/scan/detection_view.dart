@@ -45,7 +45,11 @@ class DetectionView extends StatelessWidget {
               trailing: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () => Navigator.pushNamed(context, '/source',
-                    arguments: {'scan': scan, 'license': detection.license}),
+                    arguments: {
+                      'scan': scan,
+                      'filename': detection.file,
+                      'license': detection.license
+                    }),
               ),
               dense: true,
             ),
