@@ -49,7 +49,6 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
           padding: const EdgeInsets.all(8.0),
           child: TextField(
             controller: _controller,
-            autofocus: true,
             onChanged: (_) => setState(() => null),
           ),
         ),
@@ -66,8 +65,9 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
             ),
           ),
         ButtonBar(children: [
-          TextButton(
-            child: Text('CONFIRM'),
+          TextButton.icon(
+            icon: Icon(Icons.verified),
+            label: Text('CONFIRM'),
             onPressed: (_controller.text != widget.scan.license)
                 ? () => _confirmLicense(context, _controller.text)
                 : null,

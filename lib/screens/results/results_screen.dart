@@ -17,9 +17,9 @@ import 'scans_view.dart';
 
 class ResultsScreen extends StatefulWidget {
   static const titles = [
-    'Scanning errors',
+    'Latest scans',
     'Contested licenses',
-    'Latest scans'
+    'Scanning errors',
   ];
 
   @override
@@ -50,16 +50,16 @@ class _ResultsScreenState extends State<ResultsScreen> {
         items: [
           BottomNavigationBarItem(
             icon: _statusIcon(
-              Icons.error_outline,
-              builder: (service) => service.errorCount,
-              color: Colors.red,
+              Icons.history_outlined,
+              builder: (service) => service.licenseCount,
+              color: Colors.blue,
             ),
             activeIcon: _statusIcon(
-              Icons.error,
-              builder: (service) => service.errorCount,
-              color: Colors.red,
+              Icons.history,
+              builder: (service) => service.licenseCount,
+              color: Colors.blue,
             ),
-            label: 'Errors',
+            label: 'Latest',
           ),
           BottomNavigationBarItem(
             icon: _statusIcon(
@@ -76,16 +76,16 @@ class _ResultsScreenState extends State<ResultsScreen> {
           ),
           BottomNavigationBarItem(
             icon: _statusIcon(
-              Icons.history_outlined,
-              builder: (service) => service.licenseCount,
-              color: Colors.blue,
+              Icons.error_outline,
+              builder: (service) => service.errorCount,
+              color: Colors.red,
             ),
             activeIcon: _statusIcon(
-              Icons.history,
-              builder: (service) => service.licenseCount,
-              color: Colors.blue,
+              Icons.error,
+              builder: (service) => service.errorCount,
+              color: Colors.red,
             ),
-            label: 'Latest',
+            label: 'Errors',
           ),
         ],
         currentIndex: _index,
@@ -114,11 +114,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
 
     switch (index) {
       case 0:
-        return ScansView(query: service.errors);
+        return ScansView(query: service.latest);
       case 1:
         return ScansView(query: service.contested);
       default:
-        return ScansView(query: service.latest);
+        return ScansView(query: service.errors);
     }
   }
 

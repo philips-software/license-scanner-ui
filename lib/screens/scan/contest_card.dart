@@ -41,8 +41,9 @@ class ContestCard extends StatelessWidget {
         ),
         if (scan.contesting.isNotEmpty)
           ButtonBar(children: [
-            TextButton(
-              child: Text('CONFIRM'),
+            TextButton.icon(
+              icon: Icon(Icons.verified),
+              label: Text('CONFIRM'),
               onPressed: () => _confirmLicense(context, scan.contesting),
             ),
           ])

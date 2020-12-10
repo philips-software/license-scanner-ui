@@ -77,6 +77,9 @@ class ScanService extends ChangeNotifier {
     return _scannerClient.ignore(scan.uuid, detection.license, ignore: ignore);
   }
 
+  /// Removes the package with its scan data.
+  Future<void> delete(Uri purl) => _scannerClient.delete(purl);
+
   /// Gets a sample of the the detection source for a [license] of a [scan]
   /// with a [margin] number of lines.
   Future<FileFragment> detectionSource(

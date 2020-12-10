@@ -89,7 +89,7 @@ class ScannerClient {
   }
 
   Future<void> rescan(Uri purl, String location) async {
-    final path = 'packages/${_encode(purl)}?force=yes';
+    final path = 'packages/${_encode(purl)}';
     final body = {'location': location};
     await _post(
       baseUrl.resolve(path).replace(
@@ -109,6 +109,11 @@ class ScannerClient {
       {bool ignore = true}) async {
     final path = 'scans/$scanId/ignore/$license?revert=${!ignore}';
     await _post(baseUrl.resolve(path));
+  }
+
+  Future<void> delete(Uri purl) async {
+    final path = 'packages/${_encode(purl)}';
+    await _delete(baseUrl.resolve(path));
   }
 
   Future<FileFragment> sourceFor(String scanId, String license,
@@ -144,6 +149,12 @@ class ScannerClient {
     return _assertSuccess(response);
   }
 
+  Future<void> _delete(Uri query) async {
+    final response = await _dio.deleteUri(query);
+    return _assertSuccess(response);
+  }
+
+  // FIXME Doesn't Dio throw an exception?
   T _assertSuccess<T>(Response<T> response) {
     if (response.statusCode != 200) {
       throw DioError(

@@ -26,15 +26,13 @@ class SearchResults extends StatelessWidget {
           final purl = packages[index];
           final service = Provider.of<ScanService>(context, listen: false);
 
-          return Material(
-            child: ListTile(
-              leading: Icon(Icons.source),
-              title: Text(purl.toString()),
-              onTap: () {
-                Navigator.pushNamed(context, '/scan',
-                    arguments: service.getPackageScanResult(purl));
-              },
-            ),
+          return ListTile(
+            leading: Icon(Icons.source),
+            title: Text(purl.toString()),
+            onTap: () {
+              Navigator.pushNamed(context, '/scan',
+                  arguments: service.getPackageScanResult(purl));
+            },
           );
         });
   }

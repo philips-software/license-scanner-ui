@@ -66,8 +66,9 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
             ),
             ButtonBar(
               children: [
-                TextButton(
-                  child: Text('CLEAR ALL'),
+                TextButton.icon(
+                  icon: Icon(Icons.clear),
+                  label: Text('CLEAR ALL'),
                   onPressed: () => Future.forEach<Detection>(
                           widget.scan.detections.where((det) => !det.ignored),
                           (det) => service.ignore(widget.scan, det))

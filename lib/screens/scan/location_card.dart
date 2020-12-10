@@ -75,8 +75,9 @@ class _LocationCardState extends State<LocationCard> {
         ),
         ButtonBar(
           children: [
-            TextButton(
-              child: Text('RESCAN'),
+            TextButton.icon(
+              icon: Icon(Icons.repeat),
+              label: Text('RESCAN'),
               onPressed: () => service
                   .rescan(widget.scan.purl, _controller.text)
                   .whenComplete(() => Navigator.of(context).pop())
