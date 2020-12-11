@@ -26,7 +26,7 @@ class ScanService extends ChangeNotifier {
   factory ScanService.of(BuildContext context) =>
       Provider.of<ScanService>(context, listen: false);
 
-  final _searchController = StreamController<List<Uri>>.broadcast();
+  final _searchController = StreamController<List<ScanResult>>.broadcast();
   final _scannerClient = ScannerClient();
 
   int licenseCount = 0;
@@ -34,7 +34,7 @@ class ScanService extends ChangeNotifier {
   int contestCount = 0;
 
   /// Provides search results.
-  Stream<List<Uri>> get lastSearched => _searchController.stream;
+  Stream<List<ScanResult>> get lastSearched => _searchController.stream;
 
   /// Searches for packages matching [namespace] and [name], producing
   /// results in the [lastSearched] stream.
@@ -54,11 +54,7 @@ class ScanService extends ChangeNotifier {
 
   /// Returns the scan result indicated by [uuid].
   Future<ScanResult> getScanResult(String uuid) =>
-      _scannerClient.scanResultByUuid(uuid);
-
-  /// Returns the most recent scan result for [purl].
-  Future<ScanResult> getPackageScanResult(Uri purl) =>
-      _scannerClient.scanResultByPackage(purl);
+      _scannerClient.getScanResult(uuid);
 
   /// Trigger new scan of an existing [purl] from [location].
   Future<void> rescan(Uri purl, String location) =>
@@ -68,23 +64,23 @@ class ScanService extends ChangeNotifier {
   /// If no license is provided, the existing license value is confirmed.
   Future<void> confirm(ScanResult scan, String license) {
     scan.license = license;
-    return _scannerClient.confirm(scan.uuid, license);
+    return _scannerClient.confirm(scan.id, license);
   }
 
   /// Marks the detection for [detection] of [scan] as false-positive.
   Future<void> ignore(ScanResult scan, Detection detection, {ignore = true}) {
     detection.ignored = ignore;
-    return _scannerClient.ignore(scan.uuid, detection.license, ignore: ignore);
+    return _scannerClient.ignore(scan.id, detection.license, ignore: ignore);
   }
 
   /// Removes the package with its scan data.
-  Future<void> delete(Uri purl) => _scannerClient.delete(purl);
+  Future<void> delete(ScanResult scan) => _scannerClient.delete(scan.id);
 
   /// Gets a sample of the the detection source for a [license] of a [scan]
   /// with a [margin] number of lines.
   Future<FileFragment> detectionSource(
           ScanResult scan, String license, int margin) =>
-      _scannerClient.sourceFor(scan.uuid, license, margin: margin);
+      _scannerClient.sourceFor(scan.id, license, margin: margin);
 
   void _processStats({int licenses, int errors, int contested}) {
     licenseCount = licenses;

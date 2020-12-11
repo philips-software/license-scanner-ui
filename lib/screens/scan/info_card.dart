@@ -40,7 +40,7 @@ class InfoCard extends StatelessWidget {
                 icon: Icon(Icons.delete, color: Colors.red),
                 label: Text("DELETE", style: TextStyle(color: Colors.red)),
                 onPressed: () => ScanService.of(context)
-                    .delete(scan.purl)
+                    .delete(scan)
                     .whenComplete(() => Navigator.of(context).pop())
                     .catchError((e) => showError(context, e.toString())),
               ),

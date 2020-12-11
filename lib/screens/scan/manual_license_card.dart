@@ -29,6 +29,9 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
   @override
   void initState() {
     super.initState();
+    if (widget.scan.isConfirmed) {
+      _controller.text = widget.scan.license;
+    }
   }
 
   @override

@@ -11,9 +11,9 @@
 import '../model/detection.dart';
 
 class ScanResult {
-  ScanResult({this.uuid, this.purl, this.timestamp});
+  ScanResult({this.id, this.purl, this.timestamp});
 
-  final String uuid;
+  final String id;
   final Uri purl;
   final DateTime timestamp;
 

@@ -29,7 +29,8 @@ class ScannerClient {
   final _dio = Dio();
 
   /// Queries for named package, reporting results and errors in the [sink].
-  void search(StreamSink<List<Uri>> sink, String namespace, String name) async {
+  void search(
+      StreamSink<List<ScanResult>> sink, String namespace, String name) async {
     _catchErrorsToSink(sink, () async {
       final json =
           await _get<Map<String, dynamic>>(baseUrl.resolve('packages').replace(
@@ -38,7 +39,7 @@ class ScannerClient {
           'name': Uri.encodeComponent(name),
         },
       ));
-      sink.add(ScanResultMapper.fromPurlList(json['results']));
+      sink.add(ScanResultMapper.fromList(json['results']));
     });
   }
 
@@ -76,21 +77,15 @@ class ScannerClient {
     return ScanResultMapper.fromList(json['results']);
   }
 
-  Future<ScanResult> scanResultByUuid(String uuid) async {
+  Future<ScanResult> getScanResult(String scanId) async {
     final json =
-        await _get<Map<String, dynamic>>(baseUrl.resolve('scans/$uuid'));
-    return ScanResultMapper.fromMap(json);
-  }
-
-  Future<ScanResult> scanResultByPackage(Uri purl) async {
-    final path = 'packages/${_encode(purl)}';
-    final json = await _get<Map<String, dynamic>>(baseUrl.resolve(path));
+        await _get<Map<String, dynamic>>(baseUrl.resolve('scans/$scanId'));
     return ScanResultMapper.fromMap(json);
   }
 
   Future<void> rescan(Uri purl, String location) async {
-    final path = 'packages/${_encode(purl)}';
-    final body = {'location': location};
+    final path = 'packages';
+    final body = {'purl': purl.toString(), 'location': location};
     await _post(
       baseUrl.resolve(path).replace(
         queryParameters: {'force': 'yes'},
@@ -111,8 +106,8 @@ class ScannerClient {
     await _post(baseUrl.resolve(path));
   }
 
-  Future<void> delete(Uri purl) async {
-    final path = 'packages/${_encode(purl)}';
+  Future<void> delete(String scanId) async {
+    final path = 'scans/$scanId';
     await _delete(baseUrl.resolve(path));
   }
 
@@ -123,12 +118,9 @@ class ScannerClient {
     return FileFragmentMapper.fromMap(json);
   }
 
-  String _encode(Uri purl) =>
-      Uri.encodeComponent(Uri.encodeComponent(purl.toString()));
-
   Future<T> _get<T>(Uri query) async {
     final response = await _dio.getUri<T>(query);
-    return _assertSuccess(response);
+    return response.data;
   }
 
   Future<T> _post<T>(Uri query, {dynamic body}) async {
@@ -137,7 +129,7 @@ class ScannerClient {
       data: body,
       options: Options(contentType: ContentType.json.toString()),
     );
-    return _assertSuccess(response);
+    return response.data;
   }
 
   Future<T> _put<T>(Uri query, {dynamic body}) async {
@@ -146,26 +138,10 @@ class ScannerClient {
       data: body,
       options: Options(contentType: ContentType.json.toString()),
     );
-    return _assertSuccess(response);
-  }
-
-  Future<void> _delete(Uri query) async {
-    final response = await _dio.deleteUri(query);
-    return _assertSuccess(response);
-  }
-
-  // FIXME Doesn't Dio throw an exception?
-  T _assertSuccess<T>(Response<T> response) {
-    if (response.statusCode != 200) {
-      throw DioError(
-        type: DioErrorType.RESPONSE,
-        response: response,
-        error: 'Received status ${response.statusCode}',
-      );
-    }
-
     return response.data;
   }
+
+  Future<void> _delete(Uri query) => _dio.deleteUri(query);
 
   void _reportStats(StatsCallback callback, Map<String, dynamic> result) {
     callback?.call(

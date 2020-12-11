@@ -40,7 +40,7 @@ extension FileFragmentMapper on FileFragment {
 extension ScanResultMapper on ScanResult {
   static ScanResult fromMap(Map<String, dynamic> map) {
     final result = ScanResult(
-      uuid: map['id'],
+      id: map['id'],
       purl: Uri.parse(map['purl']),
       timestamp: DateTime.parse(map['timestamp']).toLocal(),
     );
@@ -60,7 +60,4 @@ extension ScanResultMapper on ScanResult {
 
   static List<ScanResult> fromList(List<dynamic> list) =>
       list.map((m) => fromMap(m)).toList(growable: false);
-
-  static List<Uri> fromPurlList(List<dynamic> list) =>
-      list.map((uri) => Uri.parse(uri)).toList(growable: false);
 }

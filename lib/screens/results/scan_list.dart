@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../model/scan_result.dart';
-import 'scan_result_tile.dart';
+import '../widgets/scan_result_tile.dart';
 
 class ScanList extends StatelessWidget {
   ScanList(this.scans, {this.onTap, this.onRefresh});

@@ -44,7 +44,7 @@ class _ScansViewState extends State<ScansView> {
         builder: (list) => ScanList(
           list,
           onTap: (scan) async {
-            final uuid = scan.uuid;
+            final uuid = scan.id;
             await Navigator.pushNamed(context, '/scan',
                 arguments: service.getScanResult(uuid));
             _refresh();
