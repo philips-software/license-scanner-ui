@@ -85,7 +85,7 @@ class _ManualLicenseCardState extends State<ManualLicenseCard> {
 
     return service
         .confirm(widget.scan, license)
-        .whenComplete(() => Navigator.pop(context))
-        .catchError((e) => showError(context, e.toString()));
+        .then((_) => Navigator.pop(context))
+        .catchError((e) => showError(context, e));
   }
 }

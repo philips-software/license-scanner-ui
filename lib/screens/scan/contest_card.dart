@@ -56,7 +56,7 @@ class ContestCard extends StatelessWidget {
 
     return service
         .confirm(scan, license)
-        .whenComplete(() => Navigator.pop(context))
+        .then((_) => Navigator.pop(context))
         .catchError((e) => showError(context, e.toString()));
   }
 }

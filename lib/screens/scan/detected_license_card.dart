@@ -72,7 +72,7 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
                   onPressed: () => Future.forEach<Detection>(
                           widget.scan.detections.where((det) => !det.ignored),
                           (det) => service.ignore(widget.scan, det))
-                      .whenComplete(() => setState(() => _updateLicense()))
+                      .then((_) => setState(() => _updateLicense()))
                       .catchError((error) => showError(context, error)),
                 ),
                 TextButton.icon(
@@ -80,7 +80,7 @@ class _DetectedLicenseCardState extends State<DetectedLicenseCard> {
                   label: Text('CONFIRM'),
                   onPressed: () => service
                       .confirm(widget.scan, license)
-                      .whenComplete(() => Navigator.pop(context))
+                      .then((_) => Navigator.pop(context))
                       .catchError((error) => showError(context, error)),
                 ),
               ],

@@ -62,15 +62,16 @@ class ScanService extends ChangeNotifier {
 
   /// Override the [license] for the [scan].
   /// If no license is provided, the existing license value is confirmed.
-  Future<void> confirm(ScanResult scan, String license) {
+  Future<void> confirm(ScanResult scan, String license) async {
+    await _scannerClient.confirm(scan.id, license);
     scan.license = license;
-    return _scannerClient.confirm(scan.id, license);
   }
 
   /// Marks the detection for [detection] of [scan] as false-positive.
-  Future<void> ignore(ScanResult scan, Detection detection, {ignore = true}) {
+  Future<void> ignore(ScanResult scan, Detection detection,
+      {ignore = true}) async {
+    await _scannerClient.ignore(scan.id, detection.license, ignore: ignore);
     detection.ignored = ignore;
-    return _scannerClient.ignore(scan.id, detection.license, ignore: ignore);
   }
 
   /// Removes the package with its scan data.

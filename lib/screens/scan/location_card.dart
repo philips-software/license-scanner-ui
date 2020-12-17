@@ -80,7 +80,7 @@ class _LocationCardState extends State<LocationCard> {
               label: Text('RESCAN'),
               onPressed: () => service
                   .rescan(widget.scan.purl, _controller.text)
-                  .whenComplete(() => Navigator.of(context).pop())
+                  .then((_) => Navigator.of(context).pop())
                   .catchError((e) => showError(context, e.toString())),
             ),
           ],
