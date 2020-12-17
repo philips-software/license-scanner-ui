@@ -1,0 +1,7 @@
+document:
+  title: "License Scanner user interface"
+  organization: "Philips"
+projects:
+  - id: "Pub:license_scanner_ui:license_scanner_ui:0.1.2+4"
+    excluded:
+      - "dev*"
