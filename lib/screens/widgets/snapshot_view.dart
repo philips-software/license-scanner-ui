@@ -27,7 +27,7 @@ class SnapshotView<T> extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            CircularProgressIndicator(),
+            CircularProgressIndicator.adaptive(),
             if (message != null)
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
