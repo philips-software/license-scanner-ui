@@ -1,14 +1,14 @@
 # License Scanner UI
 
 **Description**: Monitoring and license curation web user interface for the 
-[License Scanner service](https://github.com/philips-labs/license-scanner).
+[License Scanner service](https://github.com/philips-software/license-scanner).
 
 The project is developed in Flutter using the Dart programming language.
 
 ## Dependencies
 
 This project provides the user interface for the [License Scanner 
-service](https://github.com/philips-labs/license-scanner) project.
+service](https://github.com/philips-software/license-scanner) project.
 
 ## Installation
 

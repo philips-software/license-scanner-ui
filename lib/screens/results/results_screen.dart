@@ -1,11 +1,6 @@
 /*
- * This software and associated documentation files are
- *
- * Copyright © 2020-2020 Koninklijke Philips N.V.
- *
- * and is made available for use within Philips and/or within Philips products.
- *
- * All Rights Reserved
+ * Copyright (c) 2020-2021, Koninklijke Philips N.V., https://www.philips.com
+ * SPDX-License-Identifier: MIT
  */
 
 import 'package:flutter/material.dart';
@@ -106,7 +101,7 @@ class _ResultsScreenState extends State<ResultsScreen> {
         context: context,
         applicationName: 'License Scanner',
         applicationLegalese:
-            'Copyright © 2020-2020 Koninklijke Philips N.V\nAll Rights Reserved');
+            'Copyright © Koninklijke Philips N.V.\nLicense: MIT');
   }
 
   Widget _body(BuildContext context, int index) {
