@@ -30,8 +30,8 @@ class ScannerClient {
       final json =
           await _get<Map<String, dynamic>>(baseUrl.resolve('packages').replace(
         queryParameters: {
-          'namespace': Uri.encodeComponent(namespace),
-          'name': Uri.encodeComponent(name),
+          'namespace': _encoded(namespace),
+          'name': _encoded(name),
         },
       ));
       sink.add(ScanResultMapper.fromList(json['results']));
@@ -73,8 +73,8 @@ class ScannerClient {
   }
 
   Future<ScanResult> getScanResult(String scanId) async {
-    final json =
-        await _get<Map<String, dynamic>>(baseUrl.resolve('scans/$scanId'));
+    final json = await _get<Map<String, dynamic>>(
+        baseUrl.resolve('scans/${_encoded(scanId)}'));
     return ScanResultMapper.fromMap(json);
   }
 
@@ -90,25 +90,23 @@ class ScannerClient {
   }
 
   Future<void> confirm(String scanId, String license) async {
-    final path = 'scans/$scanId';
     final body = {'license': license};
-    await _put(baseUrl.resolve(path), body: body);
+    await _put(baseUrl.resolve('scans/${_encoded(scanId)}'), body: body);
   }
 
   Future<void> ignore(String scanId, String license,
       {bool ignore = true}) async {
-    final path = 'scans/$scanId/ignore/$license?revert=${!ignore}';
+    final path = 'scans/${_encoded(scanId)}/ignore/$license?revert=${!ignore}';
     await _post(baseUrl.resolve(path));
   }
 
   Future<void> delete(String scanId) async {
-    final path = 'scans/$scanId';
-    await _delete(baseUrl.resolve(path));
+    await _delete(baseUrl.resolve('scans/${_encoded(scanId)}'));
   }
 
   Future<FileFragment> sourceFor(String scanId, String license,
       {int margin = 5}) async {
-    final path = 'scans/$scanId/source/$license?margin=$margin';
+    final path = 'scans/${_encoded(scanId)}/source/$license?margin=$margin';
     final json = await _get(baseUrl.resolve(path));
     return FileFragmentMapper.fromMap(json);
   }
@@ -145,4 +143,6 @@ class ScannerClient {
       contested: result['contested'],
     );
   }
+
+  String _encoded(String string) => Uri.encodeComponent(string);
 }
