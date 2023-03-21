@@ -16,8 +16,8 @@ dependencies:
   responsive_framework: ^0.0.14
   smooth_page_indicator: ^0.2.0
   provider: ^4.3.2+2
-  http: ^0.12.2
-  dio: ^3.0.10
+  http: ^0.13.5
+  dio: ^5.0.3
   url_launcher: ^5.7.10
   toast: ^0.1.5
   badges: ^1.1.4
